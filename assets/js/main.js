@@ -3070,7 +3070,7 @@ async function hydrateDynamic(preferredLang) {
   try {
     const [projRes, posts, partners, certificates, galleryItems] =
       await Promise.all([
-        fetch("./api/projects.php")
+        fetch("./assets/data/projects.json")
           .then((r) => r.json())
           .catch(() => ({ data: [] })),
         typeof window.loadPublicBlogPosts === "function"
