@@ -3075,7 +3075,7 @@ async function hydrateDynamic(preferredLang) {
           .catch(() => ({ data: [] })),
         typeof window.loadPublicBlogPosts === "function"
           ? window.loadPublicBlogPosts("")
-          : fetch("./api/blog.php")
+          : fetch("./assets/data/projects.json")
               .then((r) => r.json())
               .then((payload) => payload.data || [])
               .catch(() => []),
