@@ -2995,6 +2995,19 @@ body.rtl .back-to-top {
     width: 48px;
     height: 48px;
   }
+
+  .back-to-top {
+    bottom: 20px;
+    left: 20px;
+    width: 46px;
+    height: 46px;
+    font-size: 18px;
+  }
+
+  body.rtl .back-to-top {
+    right: 20px;
+    left: auto;
+  }
 }
 
 /* Animations */

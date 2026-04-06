@@ -748,6 +748,8 @@ function createGallerySlider(sliderId, items, options = {}) {
   slider.appendChild(carousel);
 
   normalizedItems.forEach((item, index) => {
+    const imageLoading = index === 0 ? "eager" : "lazy";
+    const imageFetchPriority = index === 0 ? "high" : "auto";
     const slide = document.createElement("div");
     slide.className = "gallery-slide";
     slide.id = `${sliderId}-slide-${index}`;
@@ -755,7 +757,7 @@ function createGallerySlider(sliderId, items, options = {}) {
                     <div class="certificate-stage">
                         <div class="certificate-glow">
                             <div class="certificate-frame">
-                                <img loading="lazy" decoding="async" src="${item.image}" alt="${item.alt}" class="gallery-image certificate-image"
+                                <img loading="${imageLoading}" decoding="async" fetchpriority="${imageFetchPriority}" src="${item.image}" alt="${item.alt}" class="gallery-image certificate-image"
                                      width="${fullSize.w}" height="${fullSize.h}"
                                      onerror="this.src='${placeholderFull}'">
                             </div>

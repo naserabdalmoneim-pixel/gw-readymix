@@ -207,7 +207,13 @@
       results.textContent = copy.resultText(visiblePosts.length);
       blogGrid.innerHTML = visiblePosts.length
         ? visiblePosts
-            .map((post) => createArticleCard(post, basePath, { lang }))
+            .map((post, index) =>
+              createArticleCard(post, basePath, {
+                lang,
+                imageLoading: index < 3 ? "eager" : "lazy",
+                imageFetchPriority: index === 0 ? "high" : "auto",
+              }),
+            )
             .join("")
         : `<div class="page-panel content-card-empty">${copy.emptyState}</div>`;
     }

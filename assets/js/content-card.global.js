@@ -359,6 +359,9 @@
     const lang = resolveLanguage(config.lang);
     const copy = CARD_TRANSLATIONS[lang];
     const localizedPost = getLocalizedPost(post, lang);
+    const imageLoading = config.imageLoading === "eager" ? "eager" : "lazy";
+    const imageFetchPriority =
+      config.imageFetchPriority === "high" ? "high" : "auto";
     const formattedDate = formatLocalizedDate(localizedPost.date, lang);
     const tags = Array.from(
       new Set([localizedPost.category, ...(localizedPost.tags || [])]),
@@ -372,7 +375,7 @@
     return `
         <a class="project-card content-card article-card" href="${buildArticleHref(basePath, localizedPost.slug)}" aria-label="${localizedPost.title}">
             <div class="project-image">
-                <img loading="lazy" decoding="async" src="${buildRelativeUrl(basePath, localizedPost.image)}" alt="${localizedPost.imageAlt || localizedPost.title}" width="1200" height="800">
+                <img loading="${imageLoading}" decoding="async" fetchpriority="${imageFetchPriority}" src="${buildRelativeUrl(basePath, localizedPost.image)}" alt="${localizedPost.imageAlt || localizedPost.title}" width="1200" height="800">
             </div>
             <div class="project-content">
                 <div class="project-tags">

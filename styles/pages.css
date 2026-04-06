@@ -205,6 +205,16 @@ body.light-mode .search-control input::placeholder {
   pointer-events: none;
 }
 
+body.rtl .search-control input {
+  padding: 14px 50px 14px 18px;
+  text-align: right;
+}
+
+body.rtl .search-control i {
+  left: auto;
+  right: 18px;
+}
+
 .page-results {
   margin: 0 0 24px;
   color: var(--text-secondary);
@@ -549,9 +559,43 @@ html[data-active-page="tamara"][data-legal-ready="true"] #main-content {
     align-items: stretch;
   }
 
+  .filter-group {
+    justify-content: center;
+  }
+
   .filter-group,
   .search-control {
     flex-basis: 100%;
+  }
+
+  body.rtl .filter-group {
+    justify-content: flex-start;
+  }
+
+  .article-hero {
+    gap: 20px;
+  }
+
+  .article-summary {
+    order: 1;
+  }
+
+  .article-hero-media {
+    order: 2;
+    min-height: 0;
+  }
+
+  .article-hero-media img {
+    aspect-ratio: 16 / 11;
+    object-fit: cover;
+  }
+
+  .article-meta-row {
+    margin-bottom: 12px;
+  }
+
+  .article-layout {
+    gap: 20px;
   }
 
   .article-list-grid {
