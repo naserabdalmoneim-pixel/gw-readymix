@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Implementation Example</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #000;
+        color: #fff;
+      }
+      .video-background {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .video-background video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .video-container {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        margin: 20px auto;
+      }
+      .video-container iframe {
+        width: 100%;
+        height: 450px;
+        border: none;
+        border-radius: 8px;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal.active {
+        display: flex;
+      }
+      .modal-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 90%;
+        max-height: 90%;
+      }
+      button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 10px;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Video -->
+    <div class="video-background">
+      <video
+        id="heroVideo"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="https://via.placeholder.com/1920x1080/000000/FFFFFF?text=Video+Poster"
+        aria-hidden="true"
+      >
+        <source
+          src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          type="video/mp4"
+        />
+        Your browser does not support the video tag.
+      </video>
+      <div class="video-overlay">
+        <div>
+          <h1>طريقة تشغيل الفيديو</h1>
+          <p>الفيديو يعمل تلقائياً في الخلفية</p>
+          <button onclick="openModal()">شغل فيديو يوتيوب</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for YouTube Video -->
+    <div class="modal" id="videoModal">
+      <div class="modal-content">
+        <button onclick="closeModal()">إغلاق</button>
+        <div class="video-container" id="videoContainer"></div>
+      </div>
+    </div>
+
+    <script>
+      // Functions for YouTube video handling
+      function extractYouTubeId(url) {
+        if (!url) return "";
+        try {
+          const parsed = new URL(url, window.location.origin);
+          const host = parsed.hostname.replace(/^www\./, "");
+          if (host === "youtu.be") {
+            return parsed.pathname.replace(/\//g, "").trim();
+          }
+          if (
+            host === "youtube.com" ||
+            host === "m.youtube.com" ||
+            host === "music.youtube.com"
+          ) {
+            if (parsed.pathname === "/watch") {
+              return (parsed.searchParams.get("v") || "").trim();
+            }
+            if (parsed.pathname.startsWith("/embed/")) {
+              return parsed.pathname.split("/embed/")[1].split("/")[0].trim();
+            }
+            if (parsed.pathname.startsWith("/shorts/")) {
+              return parsed.pathname.split("/shorts/")[1].split("/")[0].trim();
+            }
+          }
+        } catch (error) {
+          return "";
+        }
+        return "";
+      }
+
+      function buildYouTubeEmbedUrl(url, options = {}) {
+        const videoId = extractYouTubeId(url);
+        if (!videoId) return "";
+
+        const params = new URLSearchParams({
+          autoplay: options.autoplay ? "1" : "0",
+          mute: options.mute ? "1" : "0",
+          controls: options.controls === false ? "0" : "1",
+          loop: options.loop ? "1" : "0",
+          playsinline: "1",
+          rel: "0",
+          modestbranding: "1",
+        });
+
+        if (options.loop) {
+          params.set("playlist", videoId);
+        }
+
+        return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+      }
+
+      // Modal functions
+      function openModal() {
+        const videoUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Example YouTube URL
+        const embedUrl = buildYouTubeEmbedUrl(videoUrl, {
+          autoplay: true,
+          mute: false,
+          controls: true,
+          loop: false,
+        });
+
+        const videoContainer = document.getElementById("videoContainer");
+        videoContainer.innerHTML = `
+                <iframe
+                    src="${embedUrl}"
+                    title="YouTube Video"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                ></iframe>
+            `;
+
+        document.getElementById("videoModal").classList.add("active");
+      }
+
+      function closeModal() {
+        document.getElementById("videoModal").classList.remove("active");
+        document.getElementById("videoContainer").innerHTML = "";
+      }
+
+      // Close modal when clicking outside
+      document
+        .getElementById("videoModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeModal();
+          }
+        });
+    </script>
+  </body>
+</html>

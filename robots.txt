@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /tmp_live_projects.html
+Disallow: /tmp_live_projects_extracted.html
+Sitemap: https://golden-western.sa/sitemap.xml
