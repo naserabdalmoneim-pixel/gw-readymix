@@ -1,6 +1,6 @@
 # Unitedq Uarries static site
 
-Static GitHub Pages export for the SANCO Group mirrored site.
+Static GitHub Pages export for the Mahajer Al Mutaheda Company Group mirrored site.
 
 ## Structure
 
