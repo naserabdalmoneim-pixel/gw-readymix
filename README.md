@@ -1,6 +1,6 @@
-# mhajer al_mutaheda static site
+# Muhajir AlMuttahida Company For Contracting static site
 
-Static site export for mhajer al_mutaheda.
+Static site export for Muhajir AlMuttahida Company For Contracting.
 
 ## Structure
 
