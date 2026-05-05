@@ -13,4 +13,4 @@ Static site export for Muhajir AlMuttahida Company For Contracting.
 
 - This repository is a static export, so directory names and relative paths should be changed carefully.
 - Contact email addresses and phone numbers are preserved intentionally and should not be changed unless requested explicitly.
-- Media that is not used by the live pages is archived under `wp-content/uploads/archive-unused/` instead of being deleted permanently.
+- WordPress-style directory names are still present because the exported pages reference those asset paths directly.

@@ -30,11 +30,31 @@
       modalTitle: "谢谢。您的咨询已成功发送。",
       modalBody: "我们已收到您的信息，并会尽快通过 WhatsApp 与您联系，为您提供合适的支持。",
       modalClose: "关闭"
+    },
+    ar: {
+      defaultSubject: "استفسار من الموقع",
+      inquiryTitle: "مرحباً، أود إرسال استفسار جديد من الموقع.",
+      name: "الاسم",
+      email: "البريد الإلكتروني",
+      subject: "الموضوع",
+      message: "الرسالة",
+      missing: "يرجى إكمال الحقول المطلوبة قبل الإرسال.",
+      invalidEmail: "يرجى إدخال بريد إلكتروني صحيح.",
+      opening: "جار فتح واتساب مع رسالتك.",
+      modalTitle: "شكراً لك. تم تجهيز استفسارك بنجاح.",
+      modalBody: "استلمنا بياناتك وسنتواصل معك قريباً عبر واتساب لتقديم الدعم المناسب.",
+      modalClose: "إغلاق"
     }
   };
 
   function currentMessages() {
-    return document.documentElement.lang === "zh-CN" ? messages.zh : messages.en;
+    if (document.documentElement.lang === "zh-CN") {
+      return messages.zh;
+    }
+    if (document.documentElement.lang === "ar-SA") {
+      return messages.ar;
+    }
+    return messages.en;
   }
 
   function getField(form, name) {

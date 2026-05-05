@@ -3,11 +3,80 @@
 
   var STORAGE_KEY = "uq-site-language";
   var DEFAULT_LANGUAGE = "en";
+  var currentLanguage = DEFAULT_LANGUAGE;
+  var isTranslating = false;
+  var pendingTranslation = null;
+  var translationObserver = null;
+  var observerOptions = {
+    attributes: true,
+    characterData: true,
+    childList: true,
+    subtree: true
+  };
+  var languageLabels = {
+    en: "Languages",
+    zh: "语言",
+    ar: "اللغات"
+  };
+  var languageSelectorLabels = {
+    en: "Language selector",
+    zh: "语言选择器",
+    ar: "محدد اللغة"
+  };
+  var languageDirections = {
+    en: "ltr",
+    zh: "ltr",
+    ar: "rtl"
+  };
+  var languageOptionLabels = {
+    en: {
+      en: "English",
+      zh: "Chinese",
+      ar: "Arabic"
+    },
+    zh: {
+      en: "英语",
+      zh: "中文",
+      ar: "阿拉伯语"
+    },
+    ar: {
+      en: "الإنجليزية",
+      zh: "الصينية",
+      ar: "العربية"
+    }
+  };
+  var contactFormLabels = {
+    en: {
+      namePlaceholder: "Full name",
+      emailPlaceholder: "name@example.com",
+      subjectPlaceholder: "How can we help?",
+      messagePlaceholder: "Write your message here...",
+      submit: "Send"
+    },
+    zh: {
+      namePlaceholder: "姓名全称",
+      emailPlaceholder: "电子邮箱",
+      subjectPlaceholder: "我们可以如何帮助您？",
+      messagePlaceholder: "请在此输入您的留言...",
+      submit: "发送"
+    },
+    ar: {
+      namePlaceholder: "الاسم الكامل",
+      emailPlaceholder: "البريد الإلكتروني",
+      subjectPlaceholder: "كيف يمكننا مساعدتك؟",
+      messagePlaceholder: "اكتب رسالتك هنا...",
+      submit: "إرسال"
+    }
+  };
+  var reverseDictionaries = {};
 
   var dictionary = {
     "Muhajir AlMuttahida Company For Contracting": "穆哈吉尔联合承包公司",
     "Skip to content": "跳至内容",
     "Main Menu": "主菜单",
+    "Breadcrumbs": "面包屑导航",
+    "Slider": "轮播",
+    "Contact form": "联系表单",
     "Home": "首页",
     "Our Company": "关于公司",
     "Introduction": "公司简介",
@@ -44,6 +113,7 @@
     "Search": "搜索",
     "Search…": "搜索…",
     "Read more": "阅读更多",
+    "Read less": "收起",
     "Back to Home": "返回首页",
     "Page Not Found": "页面未找到",
     "The page you requested is not available.": "您请求的页面暂不可用。",
@@ -159,8 +229,265 @@
     "Profile | Muhajir AlMuttahida Company For Contracting": "公司资料 | 穆哈吉尔联合承包公司"
   };
 
+  var arDictionary = {};
+
+  var arTitleDictionary = {};
+
+  arDictionary = Object.assign(arDictionary, {
+    "Muhajir AlMuttahida Company For Contracting": "شركة محاجر المتحدة للمقاولات",
+    "Skip to content": "تخط إلى المحتوى",
+    "Main Menu": "القائمة الرئيسية",
+    "Breadcrumbs": "مسار التنقل",
+    "Slider": "شريط الصور",
+    "Contact form": "نموذج التواصل",
+    "Home": "الرئيسية",
+    "Our Company": "شركتنا",
+    "Introduction": "مقدمة",
+    "GM Message": "رسالة المدير العام",
+    "Our Vision & Mission": "رؤيتنا ورسالتنا",
+    "Divisions & Factories": "الأقسام والمصانع",
+    "Asphalt Plant": "مصنع الأسفلت",
+    "Road Painting & Safety Division": "قسم دهانات الطرق والسلامة",
+    "Crusher Plant": "مصنع الكسارة",
+    "Contracting Division": "قسم المقاولات",
+    "Road Contracting Division": "قسم مقاولات الطرق",
+    "Profile": "الملف التعريفي",
+    "Contact us": "اتصل بنا",
+    "Contact Us": "اتصل بنا",
+    "Phone Us": "اتصل بنا",
+    "Email Us": "البريد الإلكتروني",
+    "Our Location": "موقعنا",
+    "KSA , JEDDAH": "المملكة العربية السعودية، جدة",
+    "Search in Website": "البحث في الموقع",
+    "Search": "بحث",
+    "Read more": "اقرأ المزيد",
+    "Read less": "اقرأ أقل",
+    "Back to Home": "العودة للرئيسية",
+    "Page Not Found": "الصفحة غير موجودة",
+    "Something to say? Get In Touch!": "هل لديك استفسار؟ تواصل معنا",
+    "Let's Discuss Your Project": "لنتحدث عن مشروعك",
+    "Let’s Discuss Your Project": "لنتحدث عن مشروعك",
+    "Letâ€™s Discuss Your Project": "لنتحدث عن مشروعك",
+    "Share your inquiry and our team will respond with the right support.": "شاركنا استفسارك وسيرد فريقنا بالدعم المناسب.",
+    "Tell us about your requirements, and our team will connect with you promptly to support your next project.": "أخبرنا بمتطلباتك، وسيتواصل فريقنا معك سريعاً لدعم مشروعك القادم.",
+    "Complete the form and we will open WhatsApp with your inquiry ready to send.": "أكمل النموذج وسنفتح واتساب مع تجهيز استفسارك للإرسال.",
+    "Your Name (required)": "الاسم (مطلوب)",
+    "Full name": "الاسم الكامل",
+    "Your Email (required)": "البريد الإلكتروني (مطلوب)",
+    "Subject": "الموضوع",
+    "How can we help?": "كيف يمكننا مساعدتك؟",
+    "Your Message": "رسالتك",
+    "Write your message here...": "اكتب رسالتك هنا...",
+    "Send": "إرسال",
+    "Find Us Here": "موقعنا",
+    "Contact Infromation": "معلومات التواصل",
+    "Contact Information": "معلومات التواصل",
+    "Contact Us: ": "اتصل بنا:",
+    "Address: ": "العنوان:",
+    "P.O. Box: 30094": "صندوق البريد: 30094",
+    "Postal Code: 41912": "الرمز البريدي: 41912",
+    "Friday: ": "الجمعة:",
+    "Saturday: ": "السبت:",
+    "Closed": "مغلق",
+    "Emails: ": "البريد الإلكتروني:",
+    "Call Us: ": "اتصل بنا:",
+    "Message from The General Manager": "رسالة المدير العام",
+    "Dear Customers and Employees,": "عملاءنا وموظفينا الأعزاء،",
+    "Thank you for visiting our website to learn more about our company.": "شكراً لزيارتكم موقعنا للتعرف أكثر على شركتنا.",
+    "Sincerely,": "مع خالص التحية،",
+    "Building Reliable Value for Every Client": "نبني قيمة موثوقة لكل عميل",
+    "Our Vision": "رؤيتنا",
+    "Our Mission": "رسالتنا",
+    "Our Aim": "هدفنا",
+    "Provide customer-driven total solutions.": "تقديم حلول متكاملة مبنية على احتياجات العملاء.",
+    "Continuously improve our services, equipment, and workforce capabilities.": "تطوير خدماتنا ومعداتنا وقدرات فريق العمل بشكل مستمر.",
+    "Deliver reliable, timely, and responsive service.": "تقديم خدمة موثوقة وفي الوقت المناسب وسريعة الاستجابة.",
+    "Create long-term value through high-quality work and responsible growth.": "خلق قيمة طويلة الأمد من خلال جودة العمل والنمو المسؤول.",
+    "Company Profile of Muhajir AlMuttahida Company For Contracting": "الملف التعريفي لشركة محاجر المتحدة للمقاولات",
+    "View Profile": "عرض الملف",
+    "Download Profile": "تحميل الملف",
+    "File format: PDF": "صيغة الملف: PDF",
+    "previous arrow": "السابق",
+    "next arrow": "التالي",
+    "► Asphalt Plant": "► مصنع الأسفلت",
+    "► Contracting Division": "► قسم المقاولات",
+    "► Road Contracting Division": "► قسم مقاولات الطرق",
+    "► Road Painting & Safety Division": "► قسم دهانات الطرق والسلامة",
+    "► Crusher Plant": "► مصنع الكسارة",
+    "► Introduction": "► مقدمة",
+    "► GM Message": "► رسالة المدير العام",
+    "► Our Vision & Mission": "► رؤيتنا ورسالتنا"
+  });
+
+  arDictionary = Object.assign(arDictionary, {
+    "Phone Us +966530427457": "اتصل بنا +966530427457",
+    "Email Us Info@unitedquarries.com.sa": "البريد الإلكتروني Info@unitedquarries.com.sa",
+    "Our Location KSA , JEDDAH": "موقعنا المملكة العربية السعودية، جدة",
+    "KSA – Madinah": "المملكة العربية السعودية - المدينة المنورة",
+    "Yanbu Alsinaiyah – C6": "ينبع الصناعية - C6",
+    "Search for:": "البحث عن:",
+    "Email": "البريد الإلكتروني",
+    "Email Info@unitedquarries.com.sa": "البريد الإلكتروني Info@unitedquarries.com.sa",
+    "Phone": "الهاتف",
+    "Phone +966530427457": "الهاتف +966530427457",
+    "Location": "الموقع",
+    "Location:": "الموقع:",
+    "Location KSA , JEDDAH": "الموقع المملكة العربية السعودية، جدة",
+    "© 2026 Muhajir AlMuttahida Company For Contracting. All rights reserved.": "© 2026 شركة محاجر المتحدة للمقاولات. جميع الحقوق محفوظة.",
+    "Search…": "بحث...",
+    "The page you requested is not available.": "الصفحة التي طلبتها غير متوفرة.",
+    "We'll get right back to you": "سنرد عليك قريباً",
+    "name@example.com": "name@example.com",
+    "Contact Us:": "اتصل بنا:",
+    "Location: KSA , JEDDAH": "الموقع: المملكة العربية السعودية، جدة",
+    "Address:": "العنوان:",
+    "Weekday’s:": "أيام العمل:",
+    "Sunday – Thursday:": "الأحد - الخميس:",
+    "08:00 AM to 05:30 PM": "08:00 صباحاً إلى 05:30 مساءً",
+    "Friday:": "الجمعة:",
+    "Saturday:": "السبت:",
+    "Emails:": "البريد الإلكتروني:",
+    "Call Us:": "اتصل بنا:",
+    "Contracting Slider -Home": "سلايدر المقاولات - الرئيسية",
+    "Project Slider -Home": "سلايدر المشاريع - الرئيسية",
+    "Operations Slider -Home": "سلايدر العمليات - الرئيسية",
+    "Asphalt and milling plant operations": "عمليات مصنع الأسفلت والكشط",
+    "Additional asphalt plant operations view": "عرض إضافي لعمليات مصنع الأسفلت",
+    "Access the official company profile to review our background, capabilities, operational strengths, and project experience in one organized document.": "اطلع على الملف التعريفي الرسمي للشركة لمراجعة خلفيتنا وقدراتنا ونقاط قوتنا التشغيلية وخبراتنا في المشاريع ضمن مستند منظم واحد.",
+    "Use the options below to open the profile directly in your browser or download a copy for offline review and sharing.": "استخدم الخيارات أدناه لفتح الملف التعريفي مباشرة في المتصفح أو تنزيل نسخة للمراجعة والمشاركة دون اتصال.",
+    "Our direction is shaped by quality, dependable delivery, and practical solutions that support construction, asphalt materials, and logistics needs across the Kingdom of Saudi Arabia.": "يتشكل توجهنا من الجودة والتسليم الموثوق والحلول العملية التي تدعم احتياجات الإنشاء ومواد الأسفلت والخدمات اللوجستية في أنحاء المملكة العربية السعودية.",
+    "To be the company that best understands customer needs and delivers products and services that consistently earn long-term trust.": "أن نكون الشركة الأكثر فهماً لاحتياجات العملاء، وأن نقدم منتجات وخدمات تكتسب الثقة على المدى الطويل باستمرار.",
+    "To be recognized as a leading company in Saudi Arabia for asphalt materials, contracting support, and logistics services.": "أن نكون شركة رائدة ومعترفاً بها في المملكة العربية السعودية في مواد الأسفلت ودعم المقاولات والخدمات اللوجستية.",
+    "Is one of the most significant groups in Kingdom of Saudi Arabia, Established in 2013, since its creation, Muhajir AlMuttahida Company For Contracting has been trying to constantly increase and diversify its activities in related field of construction contracting. Since that time both the size and significance of the group have been notably increasing by further investments in New Establishments (Divisions). Presently, the all Muhajir AlMuttahida Company For Contracting divisions count more than 850 employees. The group has a clear strategy of using its collective skills and understanding of markets to develop a unique value proposition to clients.": "تعد شركة محاجر المتحدة للمقاولات من المجموعات المهمة في المملكة العربية السعودية. تأسست عام 2013، ومنذ إنشائها تسعى باستمرار إلى توسيع وتنويع أنشطتها في مجال مقاولات الإنشاء. ومنذ ذلك الوقت ازداد حجم المجموعة وأهميتها بشكل ملحوظ من خلال الاستثمار في منشآت وأقسام جديدة. حالياً تضم أقسام شركة محاجر المتحدة للمقاولات أكثر من 850 موظفاً. تمتلك المجموعة استراتيجية واضحة تقوم على توظيف مهاراتها الجماعية وفهمها للأسواق لتقديم قيمة مميزة للعملاء.",
+    "Muhajir AlMuttahida Company For Contracting was established in 2013 having grown and expanded over the last years. The head office is located in KSA , JEDDAH.": "تأسست شركة محاجر المتحدة للمقاولات عام 2013، وقد نمت وتوسعت خلال السنوات الماضية. يقع المكتب الرئيسي في المملكة العربية السعودية، جدة.",
+    "When the company was established, the development in the Kingdom was still in its infancy and only a few entrepreneurs were willing to take the risk, or had the ability to form a construction company. However, Muhajir AlMuttahida Company For Contracting succeeded in creating a Saudi Arabian Owned firm capable of performing many diverse projects.": "عند تأسيس الشركة، كان التطور في المملكة لا يزال في بداياته، ولم يكن سوى عدد قليل من رواد الأعمال مستعدين لتحمل المخاطر أو يمتلكون القدرة على تأسيس شركة إنشاءات. ومع ذلك، نجحت شركة محاجر المتحدة للمقاولات في إنشاء شركة سعودية قادرة على تنفيذ مشاريع متنوعة.",
+    "Although the company activities in those early years were concentrated on projects related to earth moving and road works only, the VISION of the founder did not end there. Muhajir AlMuttahida Company For Contracting mission is to participate and contribute its expertise in the growing development of the Kingdom. Thus, for its 13 years of existence, Muhajir AlMuttahida Company For Contracting has developed and maintained a large staff of proven technical and management personnel, experienced specialists in the design, planning and construction department, together with sound technical and commercial management teams that ensure efficient and timely execution of any project that it may undertake.": "على الرغم من أن أنشطة الشركة في سنواتها الأولى كانت تتركز على مشاريع أعمال الحفر والطرق فقط، فإن رؤية المؤسس لم تتوقف عند ذلك. تتمثل رسالة شركة محاجر المتحدة للمقاولات في المشاركة والمساهمة بخبراتها في التنمية المتنامية للمملكة. لذلك، وخلال 13 عاماً من وجودها، طورت الشركة وحافظت على فريق كبير من الكفاءات الفنية والإدارية المثبتة، والمتخصصين ذوي الخبرة في التصميم والتخطيط والتنفيذ، إلى جانب فرق إدارة فنية وتجارية قوية تضمن تنفيذ أي مشروع تتولاه بكفاءة وفي الوقت المحدد.",
+    "Although the company activities in those early years were concentrated on projects related to earthmoving and road works only, the VISION of the founder did not end there. Muhajir AlMuttahida Company For Contracting mission is to participate and contribute its expertise in the growing development of the Kingdom. Thus, for its 13 years of existence, Muhajir AlMuttahida Company For Contracting has developed and maintained a large staff of proven technical and management personnel, experienced specialists in the design, planning and construction department, together with sound technical and commercial management teams that ensure efficient and timely execution of any project that it may undertake.": "على الرغم من أن أنشطة الشركة في سنواتها الأولى كانت تتركز على مشاريع أعمال الحفر والطرق فقط، فإن رؤية المؤسس لم تتوقف عند ذلك. تتمثل رسالة شركة محاجر المتحدة للمقاولات في المشاركة والمساهمة بخبراتها في التنمية المتنامية للمملكة. لذلك، وخلال 13 عاماً من وجودها، طورت الشركة وحافظت على فريق كبير من الكفاءات الفنية والإدارية المثبتة، والمتخصصين ذوي الخبرة في التصميم والتخطيط والتنفيذ، إلى جانب فرق إدارة فنية وتجارية قوية تضمن تنفيذ أي مشروع تتولاه بكفاءة وفي الوقت المحدد.",
+    "Muhajir AlMuttahida Company For Contracting is one of the leading companies in Construction of Roads in the whole region since it is constructed and until nowadays it did many successful completed road projects including Asphalt, Earthwork, Infrastructure, Lighting, Culverts, Sign Boards, Pavement Markings, Rip Rap and all the related work.": "تعد شركة محاجر المتحدة للمقاولات من الشركات الرائدة في إنشاء الطرق على مستوى المنطقة. ومنذ تأسيسها وحتى اليوم أنجزت العديد من مشاريع الطرق الناجحة، بما في ذلك الأسفلت، والأعمال الترابية، والبنية التحتية، والإنارة، والعبارات، واللوحات الإرشادية، وتخطيط الطرق، وأعمال الحماية بالحجارة، وجميع الأعمال ذات الصلة.",
+    "At present, the number of our full-time staff and employees exceeds five hundred personnel working at Yanbu. These employees are supported by state-of-the-art Computer Management and Computer Aided Design Systems and utilizing a fleet of plant and equipment.": "في الوقت الحالي يتجاوز عدد موظفينا والعاملين بدوام كامل في ينبع خمسمائة موظف. ويدعم هؤلاء الموظفين أنظمة إدارة حاسوبية وتصميم بمساعدة الحاسوب متطورة، إضافة إلى أسطول من المصانع والمعدات.",
+    "Today, Muhajir AlMuttahida Company For Contracting has a successful track record of completing many projects from government and private parties throughout the Kingdom and Muhajir AlMuttahida Company For Contracting is widely known as a very professional firm that can assure clients that they will be utilizing a first-class firm with a professional background, high level of experience and broad capability. Accordingly, our mission continues to be providing excellent professional services to a wider range of customers.": "اليوم تمتلك شركة محاجر المتحدة للمقاولات سجلاً ناجحاً في تنفيذ العديد من المشاريع للجهات الحكومية والخاصة في مختلف أنحاء المملكة. وتعرف الشركة على نطاق واسع كشركة مهنية للغاية، مما يمنح العملاء الثقة بأنهم يتعاملون مع شركة من الدرجة الأولى ذات خلفية مهنية وخبرة عالية وقدرات واسعة. وبناءً على ذلك، تستمر رسالتنا في تقديم خدمات مهنية متميزة لشريحة أوسع من العملاء.",
+    "I hope that you find our website informative and I invite you to come back and visit frequently. We are continually updating our site with new and additional information.": "آمل أن تجدوا موقعنا مفيداً، وأدعوكم إلى زيارته باستمرار. نحن نحدث الموقع بشكل مستمر بمعلومات جديدة وإضافية.",
+    "We welcome your comments and questions so please do not hesitate to contact us for information, assistance, or to make a recommendation of how we can improve. â€œ": "نرحب بتعليقاتكم وأسئلتكم، فلا تترددوا في التواصل معنا للحصول على المعلومات أو المساعدة أو تقديم اقتراحات تساعدنا على التحسين.",
+    "We welcome your comments and questions so please do not hesitate to contact us for information, assistance, or to make a recommendation of how we can improve. Ã¢â‚¬Å“": "نرحب بتعليقاتكم وأسئلتكم، فلا تترددوا في التواصل معنا للحصول على المعلومات أو المساعدة أو تقديم اقتراحات تساعدنا على التحسين.",
+    "Our success begins and ends with our staff. I am thankful and proud to be part of a team that is fully committed to working diligently and following safety guidelines. Our vision is to build the â€˜client experienceâ€™ through projects which reflect the values of our family. The process at which we execute our projects from start to finish provides our clients with a memorable and positive experience.": "يبدأ نجاحنا وينتهي بفريق عملنا. أنا ممتن وفخور بكوني جزءاً من فريق ملتزم بالكامل بالعمل بجد واتباع إرشادات السلامة. رؤيتنا هي بناء تجربة العميل من خلال مشاريع تعكس قيم عائلتنا. إن طريقة تنفيذنا للمشاريع من البداية إلى النهاية تمنح عملاءنا تجربة إيجابية لا تنسى.",
+    "Our success begins and ends with our staff. I am thankful and proud to be part of a team that is fully committed to working diligently and following safety guidelines. Our vision is to build the Ã¢â‚¬Ëœclient experienceÃ¢â‚¬â„¢ through projects which reflect the values of our family. The process at which we execute our projects from start to finish provides our clients with a memorable and positive experience.": "يبدأ نجاحنا وينتهي بفريق عملنا. أنا ممتن وفخور بكوني جزءاً من فريق ملتزم بالكامل بالعمل بجد واتباع إرشادات السلامة. رؤيتنا هي بناء تجربة العميل من خلال مشاريع تعكس قيم عائلتنا. إن طريقة تنفيذنا للمشاريع من البداية إلى النهاية تمنح عملاءنا تجربة إيجابية لا تنسى.",
+    "Since stepping into the role of General Manager a couple of years ago it has been a passion of mine to increase our community involvement as a team. Having a positive effect on our community is important to me and echoes our company values. Within our company, Iâ€™m passionate about building an organization which challenges all of our employees to be the best version of themselves every single day.": "منذ تولي منصب المدير العام قبل عدة سنوات، كان من شغفي زيادة مشاركتنا المجتمعية كفريق. إن ترك أثر إيجابي في مجتمعنا أمر مهم بالنسبة لي ويعكس قيم شركتنا. وداخل الشركة، أحرص على بناء منظمة تحفز جميع موظفينا ليكونوا أفضل نسخة من أنفسهم كل يوم.",
+    "Since stepping into the role of General Manager a couple of years ago it has been a passion of mine to increase our community involvement as a team. Having a positive effect on our community is important to me and echoes our company values. Within our company, IÃ¢â‚¬â„¢m passionate about building an organization which challenges all of our employees to be the best version of themselves every single day.": "منذ تولي منصب المدير العام قبل عدة سنوات، كان من شغفي زيادة مشاركتنا المجتمعية كفريق. إن ترك أثر إيجابي في مجتمعنا أمر مهم بالنسبة لي ويعكس قيم شركتنا. وداخل الشركة، أحرص على بناء منظمة تحفز جميع موظفينا ليكونوا أفضل نسخة من أنفسهم كل يوم.",
+    "We are leading producer of aggregates, sand & grave/ materials in kingdom of Saudi Arabia, We have our own 07 Crusher Plants in Kingdom. We have 02 different quarries in which we 06 Crusher Plants are from Tele-Smith USA & 01 is from Symon- China, we manufacture products that specifically cater to the construction, ready mix, and asphalt industries,": "نحن من المنتجين الرائدين للركام والرمل ومواد الحصى في المملكة العربية السعودية، ولدينا 7 مصانع كسارات خاصة بنا داخل المملكة. نمتلك محجرين مختلفين، تضم 6 كسارات من Tele-Smith الأمريكية وكسارة واحدة من Symon الصينية، وننتج مواد تلبي بشكل خاص احتياجات قطاعات الإنشاء والخرسانة الجاهزة والأسفلت.",
+    "We have complete independent setup along with Diesel Generating sets which are keeping Crushers operational all the time, CAT Brand wheel loaders which are feeding the crushers round the clock & Mercedes trailers which are giving logistic support to supply produced material to all of our customers in Kingdom of Saudi Arabia.": "لدينا تجهيز مستقل متكامل مع مولدات ديزل تبقي الكسارات عاملة طوال الوقت، إضافة إلى شيولات CAT تغذي الكسارات على مدار الساعة، ومقطورات مرسيدس تقدم الدعم اللوجستي لتوريد المواد المنتجة إلى جميع عملائنا في المملكة العربية السعودية.",
+    "We enjoy an outstanding reputation in the market for high quality asphalt supply, our asphalt operation has achieved significant growth over the past few years and the company is planning to further enhance resources to accommodate the demand for supplies, both in-house as well as external projects.": "نتمتع بسمعة متميزة في السوق في توريد الأسفلت عالي الجودة. وقد حققت عمليات الأسفلت لدينا نمواً ملحوظاً خلال السنوات الماضية، وتخطط الشركة لتعزيز مواردها بشكل أكبر لتلبية الطلب على التوريد للمشاريع الداخلية والخارجية.",
+    "we have just imported one more new asphalt plant from Handa China Now we have the 04 Complete asphalt plants, 01 from Parker & 03 from Handa China, we are producing best quality asphalt & cater the needs of our own road construction division & external customers, No doubt we are the expert of Asphalt technology & trusted name in Kingdom of Saudi Arabia.": "قمنا مؤخراً باستيراد مصنع أسفلت جديد من Handa الصين، وأصبح لدينا الآن 4 مصانع أسفلت متكاملة، واحد من Parker وثلاثة من Handa الصين. ننتج أسفلتاً عالي الجودة ونلبي احتياجات قسم إنشاء الطرق لدينا والعملاء الخارجيين. ولا شك أننا خبراء في تقنية الأسفلت واسم موثوق في المملكة العربية السعودية.",
+    "Our Civil Contraction Division has a reputation for professionalism, orginazation experience and technical knowledge. We build strong relationships with consultants, subcontractors and suppliers, which allow us to offer innovative solutions to project challenges that benefit our clients.": "يتمتع قسم المقاولات المدنية لدينا بسمعة في المهنية والخبرة التنظيمية والمعرفة الفنية. نبني علاقات قوية مع الاستشاريين والمقاولين من الباطن والموردين، مما يتيح لنا تقديم حلول مبتكرة لتحديات المشاريع بما يخدم عملاءنا.",
+    "We have completed & handed over several projects on time in Kingdom of Saudi Arabia. The Company's strength lies in having a formidable team of well qualified and experienced Managers, Engineers and Technicians capable of Designing, Planning and execution of Projects. The other strength lies in the form of precise Machinery, Equipment & Tools required for proper project execution. We are fully equipped with all necessary equipment. We have a dedicated team of Engineers & Skilled labour in our Civil contracting Division.": "أنجزنا وسلمنا عدة مشاريع في موعدها داخل المملكة العربية السعودية. تكمن قوة الشركة في امتلاك فريق قوي من المديرين والمهندسين والفنيين المؤهلين وذوي الخبرة، القادرين على تصميم المشاريع وتخطيطها وتنفيذها. كما تتمثل قوة أخرى في توفر الآلات والمعدات والأدوات الدقيقة اللازمة للتنفيذ السليم للمشاريع. نحن مجهزون بالكامل بجميع المعدات الضرورية، ولدينا فريق متخصص من المهندسين والعمالة الماهرة في قسم المقاولات المدنية.",
+    "Has enjoyed a constant growth since it started operation in 2013 as a road contractor. This road to success has been built with ingenuity, Vast Experience & workmanship, the key factors in the growth and stability of the business are our aggressive management team.": "حقق قسم مقاولات الطرق نمواً مستمراً منذ بدء عمله عام 2013 كمقاول طرق. وقد بني طريق النجاح هذا على الابتكار والخبرة الواسعة وجودة التنفيذ، وكانت الإدارة النشطة من العوامل الأساسية في نمو واستقرار الأعمال.",
+    "This team has grown up in the industry and applies a cost effective and timely approach to the completion of each project. Muhajir AlMuttahida Company For Contracting provides exceptional value to our clients by utilizing professional, trusted and pioneering methods. We remain unfazed by the complexity, scale and vastness of any project put forth to us. We undertake any challenge irrespective of size or complexity from the design stage to the final touch. Muhajir AlMuttahida Company For Contracting Road Construction Division owns and operates big fleet of Top Brands of road construction equipment, Like Bulldozers (CAT & Komatsu) , Motor Graders (CAT), all kind & Size of road rollers ( Hamm, Dynapac, CAT, Bomag Milling machines (Wirtgen) , Paving Machines (VÃ–GELE) & Wheel Loaders (CAT), As we mentioned above that we have our own Asphalt Plants & Crushers which are feeding round the clock to our road Construction division, We have comprehensive solution under one Roof, Our dedicated team of Engineers & skilled workers are always ready to handle any road construction & maintenance job.": "نشأ هذا الفريق داخل القطاع ويطبق نهجاً فعالاً من حيث التكلفة والوقت لإنجاز كل مشروع. تقدم شركة محاجر المتحدة للمقاولات قيمة استثنائية لعملائها من خلال أساليب مهنية وموثوقة ورائدة. لا تثنينا صعوبة أي مشروع أو حجمه أو اتساع نطاقه. نتولى أي تحد مهما كان حجمه أو تعقيده من مرحلة التصميم وحتى اللمسات النهائية. يمتلك قسم إنشاء الطرق في شركة محاجر المتحدة للمقاولات ويشغل أسطولاً كبيراً من معدات إنشاء الطرق من أفضل العلامات، مثل بلدوزرات CAT وKomatsu، وجريدرات CAT، وجميع أنواع وأحجام الرصاصات من Hamm وDynapac وCAT وBomag، وماكينات الكشط Wirtgen، وفراشات الأسفلت VOGELE، وشيولات CAT. وكما ذكرنا، لدينا مصانع أسفلت وكسارات خاصة بنا تغذي قسم إنشاء الطرق على مدار الساعة. نقدم حلاً متكاملاً تحت سقف واحد، وفريقنا المتخصص من المهندسين والعمال المهرة جاهز دائماً للتعامل مع أعمال إنشاء الطرق وصيانتها.",
+    "This team has grown up in the industry and applies a cost effective and timely approach to the completion of each project. Muhajir AlMuttahida Company For Contracting provides exceptional value to our clients by utilizing professional, trusted and pioneering methods. We remain unfazed by the complexity, scale and vastness of any project put forth to us. We undertake any challenge irrespective of size or complexity from the design stage to the final touch. Muhajir AlMuttahida Company For Contracting Road Construction Division owns and operates big fleet of Top Brands of road construction equipment, Like Bulldozers (CAT & Komatsu) , Motor Graders (CAT), all kind & Size of road rollers ( Hamm, Dynapac, CAT, Bomag Milling machines (Wirtgen) , Paving Machines (VÃƒâ€“GELE) & Wheel Loaders (CAT), As we mentioned above that we have our own Asphalt Plants & Crushers which are feeding round the clock to our road Construction division, We have comprehensive solution under one Roof, Our dedicated team of Engineers & skilled workers are always ready to handle any road construction & maintenance job.": "نشأ هذا الفريق داخل القطاع ويطبق نهجاً فعالاً من حيث التكلفة والوقت لإنجاز كل مشروع. تقدم شركة محاجر المتحدة للمقاولات قيمة استثنائية لعملائها من خلال أساليب مهنية وموثوقة ورائدة. لا تثنينا صعوبة أي مشروع أو حجمه أو اتساع نطاقه. نتولى أي تحد مهما كان حجمه أو تعقيده من مرحلة التصميم وحتى اللمسات النهائية. يمتلك قسم إنشاء الطرق في شركة محاجر المتحدة للمقاولات ويشغل أسطولاً كبيراً من معدات إنشاء الطرق من أفضل العلامات، مثل بلدوزرات CAT وKomatsu، وجريدرات CAT، وجميع أنواع وأحجام الرصاصات من Hamm وDynapac وCAT وBomag، وماكينات الكشط Wirtgen، وفراشات الأسفلت VOGELE، وشيولات CAT. وكما ذكرنا، لدينا مصانع أسفلت وكسارات خاصة بنا تغذي قسم إنشاء الطرق على مدار الساعة. نقدم حلاً متكاملاً تحت سقف واحد، وفريقنا المتخصص من المهندسين والعمال المهرة جاهز دائماً للتعامل مع أعمال إنشاء الطرق وصيانتها.",
+    "As we have the road construction contracting division from 2013 & performance is superb, then the company establish our own division for Road Marking and Traffic Safety Solution. Which has earned a remarkable reputation in trustworthiness, all because of a strong customer-focused approaches": "نظراً لامتلاكنا قسم مقاولات إنشاء الطرق منذ عام 2013 وأدائه المتميز، أنشأت الشركة قسماً خاصاً لتخطيط الطرق وحلول السلامة المرورية. وقد اكتسب هذا القسم سمعة بارزة في الموثوقية بفضل النهج القوي المتمحور حول العملاء.",
+    "and the continuous quest for world class quality maintaining, We have 04 Hofmann Road Marking Machines Which Consider state of the art machines in road paint technology, We have complete dedicated well experience team For Road marking Jobs.": "ومع السعي المستمر للحفاظ على جودة عالمية، نمتلك 4 ماكينات Hofmann لتخطيط الطرق، وهي من أحدث الماكينات في تقنية دهانات الطرق. ولدينا فريق متخصص ومتمرس بالكامل لأعمال تخطيط الطرق."
+  });
+
+  arTitleDictionary = Object.assign(arTitleDictionary, {
+    "Muhajir AlMuttahida Company For Contracting": "شركة محاجر المتحدة للمقاولات",
+    "Page Not Found | Muhajir AlMuttahida Company For Contracting": "الصفحة غير موجودة | شركة محاجر المتحدة للمقاولات",
+    "Contact Us | Muhajir AlMuttahida Company For Contracting": "اتصل بنا | شركة محاجر المتحدة للمقاولات",
+    "Crusher Plant | Muhajir AlMuttahida Company For Contracting": "مصنع الكسارة | شركة محاجر المتحدة للمقاولات",
+    "Divisions & Factories | Muhajir AlMuttahida Company For Contracting": "الأقسام والمصانع | شركة محاجر المتحدة للمقاولات",
+    "Asphalt Plant | Muhajir AlMuttahida Company For Contracting": "مصنع الأسفلت | شركة محاجر المتحدة للمقاولات",
+    "Contracting Division | Muhajir AlMuttahida Company For Contracting": "قسم المقاولات | شركة محاجر المتحدة للمقاولات",
+    "Road Contracting Division | Muhajir AlMuttahida Company For Contracting": "قسم مقاولات الطرق | شركة محاجر المتحدة للمقاولات",
+    "Road Painting & Safety Division | Muhajir AlMuttahida Company For Contracting": "قسم دهانات الطرق والسلامة | شركة محاجر المتحدة للمقاولات",
+    "Our Company | Muhajir AlMuttahida Company For Contracting": "شركتنا | شركة محاجر المتحدة للمقاولات",
+    "GM Message | Muhajir AlMuttahida Company For Contracting": "رسالة المدير العام | شركة محاجر المتحدة للمقاولات",
+    "Introduction | Muhajir AlMuttahida Company For Contracting": "مقدمة | شركة محاجر المتحدة للمقاولات",
+    "Our Vision & Mission | Muhajir AlMuttahida Company For Contracting": "رؤيتنا ورسالتنا | شركة محاجر المتحدة للمقاولات",
+    "Profile | Muhajir AlMuttahida Company For Contracting": "الملف التعريفي | شركة محاجر المتحدة للمقاولات"
+  });
+
+  function getDictionary(language) {
+    if (language === "zh") {
+      return dictionary;
+    }
+    if (language === "ar") {
+      return arDictionary;
+    }
+    return {};
+  }
+
+  function getTitleDictionary(language) {
+    if (language === "zh") {
+      return titleDictionary;
+    }
+    if (language === "ar") {
+      return arTitleDictionary;
+    }
+    return {};
+  }
+
+
   function normalize(text) {
     return String(text || "").replace(/\s+/g, " ").trim();
+  }
+
+  function normalizeLanguage(language) {
+    if (language === "zh" || language === "zh-CN") {
+      return "zh";
+    }
+    if (language === "ar" || language === "ar-SA") {
+      return "ar";
+    }
+    return DEFAULT_LANGUAGE;
+  }
+
+  function getReverseDictionary(language) {
+    if (!reverseDictionaries[language]) {
+      reverseDictionaries[language] = {};
+      var source = getDictionary(language);
+      Object.keys(source).forEach(function (key) {
+        reverseDictionaries[language][normalize(source[key])] = key;
+      });
+    }
+
+    return reverseDictionaries[language];
+  }
+
+  function getCanonicalText(text) {
+    var normalized = normalize(text);
+
+    if (getDictionary("zh")[normalized] || getDictionary("ar")[normalized]) {
+      return normalized;
+    }
+
+    return getReverseDictionary("zh")[normalized] || getReverseDictionary("ar")[normalized] || normalized;
+  }
+
+  function translateString(text, language) {
+    var original = String(text || "");
+    var leading = original.match(/^\s*/)[0];
+    var trailing = original.match(/\s*$/)[0];
+    var canonical = getCanonicalText(original);
+
+    if (language === DEFAULT_LANGUAGE) {
+      return leading + canonical + trailing;
+    }
+
+    var translated = getDictionary(language)[canonical];
+    if (translated) {
+      return leading + translated + trailing;
+    }
+
+    var body = original.slice(leading.length, original.length - trailing.length);
+    var changed = false;
+    Object.keys(getDictionary(language)).sort(function (a, b) {
+      return b.length - a.length;
+    }).forEach(function (key) {
+      var value = getDictionary(language)[key];
+      if (body.indexOf(key) !== -1) {
+        body = body.split(key).join(value);
+        changed = true;
+      }
+    });
+
+    return changed ? leading + body + trailing : original;
   }
 
   function rememberOriginal(node, attr) {
@@ -173,47 +500,101 @@
 
   function translateTextNode(node, language) {
     var original = node.__i18nOriginalText || node.nodeValue;
+    var canonical = getCanonicalText(original);
+    if (canonical !== normalize(original)) {
+      original = node.nodeValue.replace(normalize(node.nodeValue), canonical);
+    }
     node.__i18nOriginalText = original;
 
-    if (language === DEFAULT_LANGUAGE) {
-      node.nodeValue = original;
-      return;
-    }
-
-    var translated = dictionary[normalize(original)];
-    if (translated) {
-      var leading = original.match(/^\s*/)[0];
-      var trailing = original.match(/\s*$/)[0];
-      node.nodeValue = leading + translated + trailing;
-    }
+    node.nodeValue = translateString(original, language);
   }
 
   function translateAttributes(language) {
-    var selectors = "input[placeholder], textarea[placeholder], input[value], button[value], img[alt], a[title], button[title]";
+    var selectors = "input[placeholder], textarea[placeholder], input[value], button[value], img[alt], [title], [aria-label], [data-title], [data-alt]";
     document.querySelectorAll(selectors).forEach(function (element) {
-      ["placeholder", "value", "alt", "title"].forEach(function (attr) {
+      ["placeholder", "value", "alt", "title", "aria-label", "data-title", "data-alt"].forEach(function (attr) {
         if (!element.hasAttribute(attr)) {
           return;
         }
 
         var original = rememberOriginal(element, attr);
-        var translated = dictionary[normalize(original)];
-
-        if (language === DEFAULT_LANGUAGE) {
-          element.setAttribute(attr, original);
-        } else if (translated) {
-          element.setAttribute(attr, translated);
-        }
+        element.setAttribute(attr, translateString(original, language));
       });
     });
   }
 
+  function translateContactForm(language) {
+    var labels = contactFormLabels[language] || contactFormLabels[DEFAULT_LANGUAGE];
+    var form = document.querySelector(".wpcf7-form");
+
+    if (!form) {
+      return;
+    }
+
+    var nameField = form.querySelector('[name="your-name"]');
+    var emailField = form.querySelector('[name="your-email"]');
+    var subjectField = form.querySelector('[name="your-subject"]');
+    var messageField = form.querySelector('[name="your-message"]');
+    var submitButton = form.querySelector('input[type="submit"], button[type="submit"]');
+
+    if (nameField) {
+      nameField.setAttribute("placeholder", labels.namePlaceholder);
+    }
+    if (emailField) {
+      emailField.setAttribute("placeholder", labels.emailPlaceholder);
+    }
+    if (subjectField) {
+      subjectField.setAttribute("placeholder", labels.subjectPlaceholder);
+    }
+    if (messageField) {
+      messageField.setAttribute("placeholder", labels.messagePlaceholder);
+    }
+    if (submitButton) {
+      if (submitButton.tagName.toLowerCase() === "input") {
+        submitButton.value = labels.submit;
+        submitButton.setAttribute("value", labels.submit);
+      } else {
+        submitButton.textContent = labels.submit;
+      }
+    }
+  }
+
+  function applyLanguageDirection(language) {
+    var direction = languageDirections[language] || languageDirections[DEFAULT_LANGUAGE];
+    var htmlLang = language === "zh" ? "zh-CN" : language === "ar" ? "ar-SA" : "en-US";
+
+    document.documentElement.lang = htmlLang;
+    document.documentElement.dir = direction;
+    document.documentElement.setAttribute("data-site-language", language);
+    document.documentElement.classList.toggle("is-language-ar", language === "ar");
+    document.documentElement.classList.toggle("is-language-zh", language === "zh");
+    document.documentElement.classList.toggle("is-language-en", language === DEFAULT_LANGUAGE);
+
+    if (document.body) {
+      document.body.dir = direction;
+      document.body.setAttribute("data-site-language", language);
+      document.body.classList.toggle("is-language-ar", language === "ar");
+      document.body.classList.toggle("is-language-zh", language === "zh");
+      document.body.classList.toggle("is-language-en", language === DEFAULT_LANGUAGE);
+    }
+
+    document.querySelectorAll(".site-content, .entry-content, .textwidget, .widget, .main-navigation, #quick-contact, .footer-contact-grid, .wpcf7-form").forEach(function (element) {
+      element.dir = direction;
+    });
+  }
+
   function translateDocument(language) {
-    document.documentElement.lang = language === "zh" ? "zh-CN" : "en-US";
+    language = normalizeLanguage(language);
+    currentLanguage = language;
+    isTranslating = true;
+    if (translationObserver) {
+      translationObserver.disconnect();
+    }
+    applyLanguageDirection(language);
 
     var originalTitle = document.documentElement.dataset.i18nOriginalTitle || document.title;
     document.documentElement.dataset.i18nOriginalTitle = originalTitle;
-    document.title = language === DEFAULT_LANGUAGE ? originalTitle : titleDictionary[normalize(originalTitle)] || originalTitle;
+    document.title = language === DEFAULT_LANGUAGE ? originalTitle : getTitleDictionary(language)[normalize(originalTitle)] || originalTitle;
 
     var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
       acceptNode: function (node) {
@@ -240,25 +621,78 @@
     });
 
     translateAttributes(language);
+    translateContactForm(language);
     updateSwitcher(language);
+    window.setTimeout(function () {
+      updateSwitcher(currentLanguage);
+    }, 0);
+    isTranslating = false;
+    if (translationObserver && document.body) {
+      translationObserver.observe(document.body, observerOptions);
+    }
   }
 
-  function updateSwitcher(language) {
-    var switcher = document.querySelector(".uq-language-switcher");
-    if (!switcher) {
+  function scheduleTranslation() {
+    if (isTranslating || currentLanguage === DEFAULT_LANGUAGE) {
       return;
     }
 
-    switcher.querySelectorAll("button").forEach(function (button) {
-      var active = button.dataset.language === language;
-      button.classList.toggle("is-active", active);
-      button.setAttribute("aria-pressed", active ? "true" : "false");
+    window.clearTimeout(pendingTranslation);
+    pendingTranslation = window.setTimeout(function () {
+      translateDocument(currentLanguage);
+    }, 40);
+  }
+
+  function updateSwitcher(language) {
+    language = normalizeLanguage(language || currentLanguage || localStorage.getItem(STORAGE_KEY) || document.documentElement.lang);
+    var labelText = languageLabels[language] || languageLabels[DEFAULT_LANGUAGE];
+    var ariaLabel = languageSelectorLabels[language] || languageSelectorLabels[DEFAULT_LANGUAGE];
+
+    document.querySelectorAll(".uq-language-switcher").forEach(function (switcher) {
+      switcher.setAttribute("aria-label", ariaLabel);
+      switcher.setAttribute("data-current-language", language);
+      switcher.dir = "ltr";
+      var label = switcher.querySelector("label");
+      if (label) {
+        label.dir = languageDirections[language] || languageDirections[DEFAULT_LANGUAGE];
+        label.textContent = labelText;
+      }
+    });
+
+    document.querySelectorAll(".uq-language-switcher select").forEach(function (select) {
+      var optionLabels = languageOptionLabels[language] || languageOptionLabels[DEFAULT_LANGUAGE];
+      select.innerHTML = [
+        '<option value="en">' + optionLabels.en + '</option>',
+        '<option value="zh">' + optionLabels.zh + '</option>',
+        '<option value="ar">' + optionLabels.ar + '</option>'
+      ].join("");
+      select.value = language;
+      if (select.value !== language) {
+        var options = Array.prototype.slice.call(select.options);
+        var index = options.findIndex(function (option) {
+          return option.value === language;
+        });
+        if (index >= 0) {
+          select.selectedIndex = index;
+        }
+      }
+      Array.prototype.forEach.call(select.options, function (option) {
+        option.selected = option.value === language;
+        if (option.selected) {
+          option.setAttribute("selected", "selected");
+        } else {
+          option.removeAttribute("selected");
+        }
+      });
+      select.dir = languageDirections[language] || languageDirections[DEFAULT_LANGUAGE];
+      select.setAttribute("aria-label", ariaLabel);
     });
   }
 
   function setLanguage(language) {
-    var nextLanguage = language === "zh" ? "zh" : DEFAULT_LANGUAGE;
+    var nextLanguage = normalizeLanguage(language);
     localStorage.setItem(STORAGE_KEY, nextLanguage);
+    updateSwitcher(nextLanguage);
     translateDocument(nextLanguage);
   }
 
@@ -270,47 +704,139 @@
     var style = document.createElement("style");
     style.id = "uq-language-switcher-style";
     style.textContent = [
-      "#site-navigation .wrap-menu-content{position:relative;padding-left:118px}",
-      ".uq-language-switcher{display:inline-flex;align-items:center;gap:3px;padding:3px;border:1px solid rgba(255,255,255,.38);border-radius:4px;background:rgba(0,0,0,.18);vertical-align:middle}",
+      "#site-navigation .wrap-menu-content{position:relative;padding-left:170px}",
+      ".uq-language-switcher{display:inline-flex;align-items:center;gap:8px;padding:4px 6px;border:1px solid rgba(255,255,255,.38);border-radius:4px;background:rgba(0,0,0,.18);direction:ltr!important;vertical-align:middle}",
       "#site-navigation .uq-language-switcher{position:absolute;left:0;top:50%;transform:translateY(-50%);margin:0}",
-      ".uq-language-switcher button{min-width:42px;height:30px;padding:0 10px;border:0;border-radius:3px;background:transparent;color:#fff;font-size:13px;font-weight:700;line-height:30px;cursor:pointer}",
-      ".uq-language-switcher button.is-active{background:#fff;color:#1f4f2f}",
-      ".uq-language-switcher button:focus{outline:2px solid #fff;outline-offset:2px}",
-      "@media (max-width:991px){#site-navigation .wrap-menu-content{padding-left:104px}.uq-language-switcher button{min-width:38px;padding:0 8px}}",
-      "@media (max-width:767px){#site-navigation .wrap-menu-content{padding-left:0}.uq-language-switcher{margin:10px 0 0 0}#site-navigation .uq-language-switcher{position:static;transform:none}}"
+      ".uq-language-switcher label{color:#fff;font-size:13px;font-weight:700;line-height:1;white-space:nowrap}",
+      ".uq-language-switcher select{height:30px;min-width:112px;padding:0 28px 0 10px;border:0;border-radius:3px;background:#fff;color:#123;font-size:13px;font-weight:700;cursor:pointer}",
+      ".uq-language-switcher select:focus{outline:2px solid #fff;outline-offset:2px}",
+      "@media (min-width:1024px){.mobile-nav-wrap .uq-language-switcher{display:none}}",
+      "html[dir='rtl'] #site-navigation .wrap-menu-content{padding-left:170px;padding-right:0}",
+      "html[dir='rtl'] #site-navigation .uq-language-switcher{left:0;right:auto}",
+      "html[dir='rtl'] .uq-language-switcher select{padding:0 10px 0 28px}",
+      "@media (max-width:991px){#site-navigation .wrap-menu-content{padding-left:150px}html[dir='rtl'] #site-navigation .wrap-menu-content{padding-left:150px;padding-right:0}.uq-language-switcher select{min-width:84px}}",
+      "@media (max-width:767px){#site-navigation .wrap-menu-content{padding-left:0}html[dir='rtl'] #site-navigation .wrap-menu-content{padding-left:0;padding-right:0}.uq-language-switcher{margin:10px 0 0 0}#site-navigation .uq-language-switcher{position:static;transform:none}}",
+      "html[dir='rtl'],html[dir='rtl'] body{direction:rtl!important;text-align:right}",
+      "html[dir='ltr'],html[dir='ltr'] body{direction:ltr!important;text-align:left}",
+      "html[dir='rtl'] .site-content,html[dir='rtl'] .entry-content,html[dir='rtl'] .textwidget,html[dir='rtl'] .widget,html[dir='rtl'] #primary .site-main article .entry-content,html[dir='rtl'] .wpb_text_column,html[dir='rtl'] .vc_column-inner{text-align:right!important;direction:rtl!important}",
+      "html[dir='ltr'] .site-content,html[dir='ltr'] .entry-content,html[dir='ltr'] .textwidget,html[dir='ltr'] .widget,html[dir='ltr'] #primary .site-main article .entry-content,html[dir='ltr'] .wpb_text_column,html[dir='ltr'] .vc_column-inner{text-align:left!important;direction:ltr!important}",
+      "html[dir='rtl'] .site-branding,html[dir='rtl'] #quick-contact,html[dir='rtl'] .main-navigation,html[dir='rtl'] .footer-contact-item,html[dir='rtl'] .sidebar .widget-title{text-align:right!important}",
+      "html[dir='ltr'] .site-branding,html[dir='ltr'] #quick-contact,html[dir='ltr'] .main-navigation,html[dir='ltr'] .footer-contact-item,html[dir='ltr'] .sidebar .widget-title{text-align:left!important}",
+      "html[dir='rtl'] #quick-contact{float:right!important}",
+      "html[dir='ltr'] #quick-contact{float:left!important}",
+      "html[dir='rtl'] #quick-contact li{float:right!important;text-align:right!important;margin-left:0!important;margin-right:40px!important;padding-left:0!important;padding-right:35px!important}",
+      "html[dir='ltr'] #quick-contact li{float:left!important;text-align:left!important;margin-left:40px!important;margin-right:0!important;padding-left:35px!important;padding-right:0!important}",
+      "html[dir='rtl'] #quick-contact li::before{left:auto!important;right:-10px!important}",
+      "html[dir='ltr'] #quick-contact li::before{left:-10px!important;right:auto!important}",
+      "html[dir='rtl'] .main-navigation > div > ul > li,html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu > li{float:right!important}",
+      "html[dir='ltr'] .main-navigation > div > ul > li,html[dir='ltr'] .main-navigation .menu-header-menu-container > ul.menu > li{float:left!important}",
+      "html[dir='rtl'] .main-navigation > div > ul > li:first-child,html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu > li:first-child{padding-left:22px!important;padding-right:0!important}",
+      "html[dir='ltr'] .main-navigation > div > ul > li:first-child,html[dir='ltr'] .main-navigation .menu-header-menu-container > ul.menu > li:first-child{padding-left:0!important;padding-right:22px!important}",
+      "html[dir='rtl'] .main-navigation ul ul{left:auto!important;right:0!important;text-align:right!important}",
+      "html[dir='ltr'] .main-navigation ul ul{left:0!important;right:auto!important;text-align:left!important}",
+      "html[dir='rtl'] .main-navigation ul ul ul{left:auto!important;right:114%!important;border-left:0!important;border-right:1px solid #f7f7f76b!important}",
+      "html[dir='ltr'] .main-navigation ul ul ul{left:114%!important;right:auto!important;border-left:1px solid #f7f7f76b!important;border-right:0!important}",
+      "html[dir='rtl'] .main-navigation ul ul,html[dir='ltr'] .main-navigation ul ul{min-width:260px!important;width:max-content!important;max-width:min(360px,calc(100vw - 32px))!important;padding:0!important}",
+      "html[dir='rtl'] .main-navigation ul ul li,html[dir='ltr'] .main-navigation ul ul li{float:none!important;display:block!important;width:100%!important;clear:both!important;margin:0!important;padding:0!important}",
+      "html[dir='rtl'] .main-navigation ul ul li:first-child,html[dir='ltr'] .main-navigation ul ul li:first-child{padding:0!important}",
+      "html[dir='rtl'] .main-navigation ul ul a{text-align:right!important}",
+      "html[dir='ltr'] .main-navigation ul ul a{text-align:left!important}",
+      "html[dir='rtl'] .main-navigation ul ul a,html[dir='ltr'] .main-navigation ul ul a{display:block!important;width:100%!important;white-space:normal!important;line-height:1.45!important;padding:13px 18px!important}",
+      "html[dir='rtl'] .main-navigation > div > ul > li.menu-item-has-children > a,html[dir='rtl'] .main-navigation > div > ul > li.page_item_has_children > a,html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu > li.menu-item-has-children > a,html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu > li.page_item_has_children > a{padding-left:18px!important;padding-right:0!important}",
+      "html[dir='ltr'] .main-navigation > div > ul > li.menu-item-has-children > a,html[dir='ltr'] .main-navigation > div > ul > li.page_item_has_children > a,html[dir='ltr'] .main-navigation .menu-header-menu-container > ul.menu > li.menu-item-has-children > a,html[dir='ltr'] .main-navigation .menu-header-menu-container > ul.menu > li.page_item_has_children > a{padding-left:0!important;padding-right:18px!important}",
+      "html[dir='rtl'] .main-navigation ul ul li.menu-item-has-children > a,html[dir='rtl'] .main-navigation ul ul li.page_item_has_children > a{padding-left:30px!important;padding-right:18px!important}",
+      "html[dir='ltr'] .main-navigation ul ul li.menu-item-has-children > a,html[dir='ltr'] .main-navigation ul ul li.page_item_has_children > a{padding-left:18px!important;padding-right:30px!important}",
+      "html[dir='rtl'] .main-navigation > div > ul > li.menu-item-has-children > a::after,html[dir='rtl'] .main-navigation > div > ul > li.page_item_has_children > a::after,html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu > li.menu-item-has-children > a::after,html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu > li.page_item_has_children > a::after{left:0!important;right:auto!important;margin-left:0!important;margin-right:10px!important}",
+      "html[dir='ltr'] .main-navigation > div > ul > li.menu-item-has-children > a::after,html[dir='ltr'] .main-navigation > div > ul > li.page_item_has_children > a::after,html[dir='ltr'] .main-navigation .menu-header-menu-container > ul.menu > li.menu-item-has-children > a::after,html[dir='ltr'] .main-navigation .menu-header-menu-container > ul.menu > li.page_item_has_children > a::after{left:auto!important;right:0!important;margin-left:10px!important;margin-right:0!important}",
+      "html[dir='rtl'] .main-navigation ul ul li.menu-item-has-children > a::after,html[dir='rtl'] .main-navigation ul ul li.page_item_has_children > a::after{left:12px!important;right:auto!important}",
+      "html[dir='ltr'] .main-navigation ul ul li.menu-item-has-children > a::after,html[dir='ltr'] .main-navigation ul ul li.page_item_has_children > a::after{left:auto!important;right:12px!important}",
+      "html[dir='rtl'] .main-navigation ul li li.menu-item-has-children > a::after,html[dir='rtl'] .main-navigation ul li li.page_item_has_children > a::after{content:'\\f0d9'!important}",
+      "html[dir='ltr'] .main-navigation ul li li.menu-item-has-children > a::after,html[dir='ltr'] .main-navigation ul li li.page_item_has_children > a::after{content:'\\f0da'!important}",
+      "html[dir='rtl'] #masthead .container,html[dir='rtl'] .site-header .container{direction:ltr!important}",
+      "html[dir='rtl'] .site-branding,html[dir='rtl'] .custom-logo-link{float:left!important;text-align:left!important}",
+      "html[dir='rtl'] .custom-logo-link{margin-left:0!important;margin-right:15px!important}",
+      "html[dir='rtl'] .right-head{direction:ltr!important;float:right!important;text-align:left!important}",
+      "html[dir='rtl'] #quick-contact{float:none!important;direction:ltr!important;text-align:left!important}",
+      "html[dir='rtl'] #quick-contact > ul,html[dir='rtl'] .quick-contact-list{direction:ltr!important;justify-content:flex-end!important}",
+      "html[dir='rtl'] #quick-contact li,html[dir='rtl'] #quick-contact li:first-child{float:left!important;text-align:left!important;margin-left:40px!important;margin-right:0!important;padding-left:35px!important;padding-right:0!important;direction:rtl!important}",
+      "html[dir='rtl'] #quick-contact li::before,html[dir='rtl'] #quick-contact li.quick-email::before{left:-10px!important;right:auto!important}",
+      "html[dir='rtl'] #quick-contact a{direction:ltr!important;text-align:left!important}",
+      "html[dir='rtl'] input,html[dir='rtl'] textarea,html[dir='rtl'] select{direction:rtl!important;text-align:right!important}",
+      "html[dir='ltr'] input,html[dir='ltr'] textarea,html[dir='ltr'] select{direction:ltr!important;text-align:left!important}",
+      "html[dir='rtl'] .uq-language-switcher select,html[dir='ltr'] .uq-language-switcher select{text-align:start!important}",
+      "html[dir='rtl'] .footer-contact-grid,html[dir='rtl'] #quick-contact > ul{direction:rtl!important}",
+      "html[dir='ltr'] .footer-contact-grid,html[dir='ltr'] #quick-contact > ul{direction:ltr!important}",
+      "html[dir='rtl'] .wpcf7-form,html[dir='rtl'] .post-364 .wpcf7-form,html[dir='rtl'] .uq-whatsapp-modal__dialog{text-align:right!important;direction:rtl!important}",
+      "html[dir='ltr'] .wpcf7-form,html[dir='ltr'] .post-364 .wpcf7-form,html[dir='ltr'] .uq-whatsapp-modal__dialog{text-align:left!important;direction:ltr!important}",
+      "html[dir='rtl'] .post-364 .wpcf7-form{direction:rtl!important}",
+      "html[dir='ltr'] .post-364 .wpcf7-form{direction:ltr!important}",
+      "html[dir='rtl'] .post-364 .wpcf7-form p,html[dir='rtl'] .post-364 .wpcf7-form label{text-align:right!important;direction:rtl!important}",
+      "html[dir='ltr'] .post-364 .wpcf7-form p,html[dir='ltr'] .post-364 .wpcf7-form label{text-align:left!important;direction:ltr!important}",
+      "html[dir='rtl'] .post-364 .wpcf7 input[type='submit']{margin-left:0!important;margin-right:auto!important;text-align:center!important}",
+      "html[dir='ltr'] .post-364 .wpcf7 input[type='submit']{margin-left:auto!important;margin-right:0!important;text-align:center!important}",
+      "@media (max-width:1023px){.mobile-nav-wrap{align-items:center!important;display:flex!important;gap:8px!important;justify-content:space-between!important}.mobile-nav-wrap .uq-language-switcher{flex:0 0 auto!important;margin:0!important;max-width:calc(100vw - 150px)!important;order:2!important}.mobile-nav-wrap .uq-language-switcher label{font-size:12px!important}.mobile-nav-wrap .uq-language-switcher select{height:30px!important;min-width:94px!important;max-width:118px!important}a#mobile-trigger{align-items:center!important;display:inline-flex!important;gap:8px!important;min-width:0!important;order:1!important;padding:7px 8px!important;white-space:nowrap!important}#mobile-trigger i{margin:0!important}html[dir='rtl'] .mobile-nav-wrap{direction:rtl!important;text-align:right!important}html[dir='rtl'] .mobile-nav-wrap .uq-language-switcher{order:2!important}html[dir='rtl'] .mobile-nav-wrap #mobile-trigger{flex-direction:row-reverse!important;order:1!important}html[dir='ltr'] .mobile-nav-wrap{direction:ltr!important;text-align:left!important}html[dir='ltr'] .mobile-nav-wrap .uq-language-switcher{order:2!important}html[dir='ltr'] .mobile-nav-wrap #mobile-trigger{flex-direction:row!important;order:1!important}}",
+      "@media (max-width:420px){a#mobile-trigger{font-size:13px!important;gap:6px!important;padding-left:6px!important;padding-right:6px!important}.mobile-nav-wrap .uq-language-switcher label{font-size:11px!important}.mobile-nav-wrap .uq-language-switcher select{min-width:82px!important;max-width:96px!important}}",
+      ".main-navigation .menu-header-menu-container > ul.menu > li > a{position:relative!important;transition:background-color .22s ease,color .22s ease,box-shadow .22s ease,transform .22s ease!important}",
+      ".main-navigation .menu-header-menu-container > ul.menu > li > a::before{transition:width .24s ease,opacity .24s ease,background-color .24s ease!important}",
+      ".main-navigation .menu-header-menu-container > ul.menu > li:hover > a,.main-navigation .menu-header-menu-container > ul.menu > li:focus-within > a,.main-navigation .menu-header-menu-container > ul.menu > li > a:hover,.main-navigation .menu-header-menu-container > ul.menu > li > a:focus{background:rgba(255,255,255,.09)!important;color:#fff!important;box-shadow:inset 0 -3px 0 #c9bd4d!important;transform:translateY(-1px)!important}",
+      ".main-navigation .menu-header-menu-container > ul.menu > li.current-menu-item > a,.main-navigation .menu-header-menu-container > ul.menu > li.current_page_item > a{box-shadow:inset 0 -3px 0 #ffffff!important}",
+      ".main-navigation .menu-header-menu-container > ul.menu ul.sub-menu{background:#fff!important;border:1px solid rgba(18,52,86,.12)!important;box-shadow:0 14px 34px rgba(0,0,0,.16)!important;overflow:hidden!important}",
+      ".main-navigation .menu-header-menu-container > ul.menu ul.sub-menu a{border-inline-start:3px solid transparent!important;color:#143a5a!important;transition:background-color .2s ease,color .2s ease,border-color .2s ease,padding .2s ease!important}",
+      ".main-navigation .menu-header-menu-container > ul.menu ul.sub-menu li:hover > a,.main-navigation .menu-header-menu-container > ul.menu ul.sub-menu li:focus-within > a,.main-navigation .menu-header-menu-container > ul.menu ul.sub-menu a:hover,.main-navigation .menu-header-menu-container > ul.menu ul.sub-menu a:focus{background:#f3f7fa!important;border-inline-start-color:#c9bd4d!important;color:#0d4778!important}",
+      "html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu ul.sub-menu a{border-inline-start:0!important;border-inline-end:3px solid transparent!important}",
+      "html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu ul.sub-menu li:hover > a,html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu ul.sub-menu li:focus-within > a,html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu ul.sub-menu a:hover,html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu ul.sub-menu a:focus{border-inline-end-color:#c9bd4d!important}",
+      "@media (prefers-reduced-motion:reduce){.main-navigation .menu-header-menu-container > ul.menu > li > a,.main-navigation .menu-header-menu-container > ul.menu ul.sub-menu a{transition:none!important}.main-navigation .menu-header-menu-container > ul.menu > li:hover > a,.main-navigation .menu-header-menu-container > ul.menu > li:focus-within > a,.main-navigation .menu-header-menu-container > ul.menu > li > a:hover,.main-navigation .menu-header-menu-container > ul.menu > li > a:focus{transform:none!important}}",
+      "@media (min-width:1024px){.main-navigation .menu-header-menu-container > ul.menu{align-items:stretch!important;display:flex!important;float:none!important;gap:6px!important;justify-content:center!important;min-height:58px!important}.main-navigation .menu-header-menu-container > ul.menu > li{display:flex!important;float:none!important;padding:0!important;position:relative!important}.main-navigation .menu-header-menu-container > ul.menu > li > a{align-items:center!important;display:flex!important;justify-content:center!important;min-width:145px!important;padding:0 22px!important;text-align:center!important;white-space:nowrap!important}.main-navigation .menu-header-menu-container > ul.menu > li.menu-item-has-children > a,.main-navigation .menu-header-menu-container > ul.menu > li.page_item_has_children > a{padding-inline-end:34px!important}.main-navigation .menu-header-menu-container > ul.menu > li.menu-item-has-children > a::after,.main-navigation .menu-header-menu-container > ul.menu > li.page_item_has_children > a::after{inset-inline-end:16px!important;inset-inline-start:auto!important;top:50%!important;transform:translateY(-55%)!important}.main-navigation .menu-header-menu-container > ul.menu > li > ul.sub-menu{left:0!important;right:auto!important;top:100%!important;min-width:285px!important;width:max-content!important;max-width:min(380px,calc(100vw - 32px))!important;padding:8px 0!important;transform:scale(1,0)!important;transform-origin:top!important}.main-navigation .menu-header-menu-container > ul.menu > li:hover > ul.sub-menu,.main-navigation .menu-header-menu-container > ul.menu > li:focus-within > ul.sub-menu{opacity:1!important;transform:scale(1,1)!important}.main-navigation .menu-header-menu-container > ul.menu ul.sub-menu li{clear:both!important;display:block!important;float:none!important;margin:0!important;padding:0!important;width:100%!important}.main-navigation .menu-header-menu-container > ul.menu ul.sub-menu a{display:block!important;line-height:1.45!important;padding:12px 18px!important;white-space:normal!important;width:100%!important}html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu{direction:rtl!important}html[dir='ltr'] .main-navigation .menu-header-menu-container > ul.menu{direction:ltr!important}html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu > li > ul.sub-menu{left:auto!important;right:0!important;text-align:right!important}html[dir='ltr'] .main-navigation .menu-header-menu-container > ul.menu > li > ul.sub-menu{left:0!important;right:auto!important;text-align:left!important}html[dir='rtl'] .main-navigation .menu-header-menu-container > ul.menu ul.sub-menu a{text-align:right!important;direction:rtl!important}html[dir='ltr'] .main-navigation .menu-header-menu-container > ul.menu ul.sub-menu a{text-align:left!important;direction:ltr!important}}"
     ].join("");
     document.head.appendChild(style);
   }
 
-  function createSwitcher() {
+  function createSwitcher(id) {
     var wrapper = document.createElement("div");
     wrapper.className = "uq-language-switcher";
-    wrapper.setAttribute("role", "group");
     wrapper.setAttribute("aria-label", "Language selector");
-    wrapper.innerHTML = '<button type="button" data-language="en" aria-pressed="true">EN</button><button type="button" data-language="zh" aria-pressed="false">中文</button>';
-    wrapper.addEventListener("click", function (event) {
-      var button = event.target.closest("button[data-language]");
-      if (button) {
-        setLanguage(button.dataset.language);
+    wrapper.innerHTML = '<label for="' + id + '">Languages</label><select id="' + id + '"><option value="en">English</option><option value="zh">Chinese</option><option value="ar">Arabic</option></select>';
+    wrapper.addEventListener("change", function (event) {
+      if (event.target && event.target.matches("select")) {
+        setLanguage(event.target.value);
       }
     });
     return wrapper;
   }
 
   function insertSwitcher() {
-    if (document.querySelector(".uq-language-switcher")) {
-      return;
+    var navigation = document.querySelector("#site-navigation .wrap-menu-content") || document.querySelector("#site-navigation");
+    if (navigation && !navigation.querySelector(".uq-language-switcher")) {
+      navigation.insertBefore(createSwitcher("uq-language-select"), navigation.firstChild);
     }
 
-    var navigation = document.querySelector("#site-navigation .wrap-menu-content") || document.querySelector("#site-navigation");
-    var branding = document.querySelector(".site-branding");
-    var target = navigation || branding || document.body;
-    target.insertBefore(createSwitcher(), target.firstChild);
+    var mobileNav = document.querySelector(".mobile-nav-wrap");
+    if (mobileNav && !mobileNav.querySelector(".uq-language-switcher")) {
+      mobileNav.insertBefore(createSwitcher("uq-language-select-mobile"), mobileNav.firstChild);
+    }
+
+    if (!navigation && !mobileNav && !document.querySelector(".uq-language-switcher")) {
+      document.body.insertBefore(createSwitcher("uq-language-select"), document.body.firstChild);
+    }
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     addStyles();
     insertSwitcher();
     setLanguage(localStorage.getItem(STORAGE_KEY) || DEFAULT_LANGUAGE);
+    if (window.MutationObserver) {
+      translationObserver = new MutationObserver(scheduleTranslation);
+      translationObserver.observe(document.body, observerOptions);
+    }
+  });
+
+  document.addEventListener("change", function (event) {
+    if (event.target && event.target.matches(".uq-language-switcher select")) {
+      setLanguage(event.target.value);
+    }
+  });
+
+  window.addEventListener("pageshow", function () {
+    updateSwitcher(localStorage.getItem(STORAGE_KEY) || currentLanguage || DEFAULT_LANGUAGE);
   });
 })();
