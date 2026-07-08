@@ -291,7 +291,10 @@ function buildYouTubeEmbedUrl(url, options = {}) {
     playsinline: "1",
   });
 
-  if (window.location.protocol === "http:" || window.location.protocol === "https:") {
+  if (
+    window.location.protocol === "http:" ||
+    window.location.protocol === "https:"
+  ) {
     params.set("origin", window.location.origin);
     params.set("widget_referrer", window.location.href.split("#")[0]);
   }
@@ -645,7 +648,8 @@ function renderProjectYouTubeEmbed(projectTitle, videoUrl, imagePath) {
     return;
   }
 
-  videoContainer.className = "video-container video-container--ratio is-playing";
+  videoContainer.className =
+    "video-container video-container--ratio is-playing";
   videoContainer.removeAttribute("style");
   videoContainer.innerHTML = `
     <iframe
@@ -710,7 +714,11 @@ function renderProjectModalContent(projectId) {
   if (!showcaseVideoPath) {
     renderProjectFallbackImage(projectTitle, projectImages[projectId]);
   } else {
-    renderProjectYouTubeEmbed(projectTitle, showcaseVideoPath, projectImages[projectId]);
+    renderProjectYouTubeEmbed(
+      projectTitle,
+      showcaseVideoPath,
+      projectImages[projectId],
+    );
   }
 
   mockProjectsGrid.innerHTML = "";
@@ -1478,9 +1486,11 @@ function getProjectInquiryRequiredFieldLabels(isEn) {
       }
     : {
         fullName: "\u0627\u0644\u0627\u0633\u0645",
-        email: "\u0627\u0644\u0628\u0631\u064a\u062f \u0627\u0644\u0625\u0644\u0643\u062a\u0631\u0648\u0646\u064a",
+        email:
+          "\u0627\u0644\u0628\u0631\u064a\u062f \u0627\u0644\u0625\u0644\u0643\u062a\u0631\u0648\u0646\u064a",
         phone: "\u0631\u0642\u0645 \u0627\u0644\u0647\u0627\u062a\u0641",
-        message: "\u062a\u0641\u0627\u0635\u064a\u0644 \u0627\u0644\u0645\u0634\u0631\u0648\u0639",
+        message:
+          "\u062a\u0641\u0627\u0635\u064a\u0644 \u0627\u0644\u0645\u0634\u0631\u0648\u0639",
         privacyAccepted:
           "\u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0629 \u0639\u0644\u0649 \u0633\u064a\u0627\u0633\u0629 \u0627\u0644\u062e\u0635\u0648\u0635\u064a\u0629",
       };
@@ -2488,9 +2498,9 @@ const translations = {
     project2Tag1: "سكني",
     project2Tag2: "توريد مرحلي",
     project2Tag3: "إسكان",
-    project3Tag1: "خلطات خاصة",
+    project3Tag1: "40MPA",
     project3Tag2: "بنية تحتية",
-    project3Tag3: "مقاومة للرطوبة",
+    project3Tag3: "سكني",
     project4Tag1: "سكني",
     project4Tag2: "40 MPA",
     project5Tag1: "سكني",
@@ -2500,10 +2510,10 @@ const translations = {
       "بتنفيذ متواصل لأكثر من 15 ساعة مع تنسيق دقيق لعمليات الصب باستخدام عدة مضخات لضمان الجودة والكفاءة في التنفيذ.",
     project2Meta2Label: "متر مكعب",
     project2Meta3Label: "طابق",
-    project3Title: "محطة بريمان للمياه",
+    project3Title: "مشروع وهج العقارية",
     project3Desc:
       "أعمال خرسانية لمرفق مائي حيوي تتطلب خلطات متخصصة ومقاومة تشغيلية عالية في بيئات الرطوبة.",
-    project3Meta1Label: "سنة الانتهاء",
+    project3Meta1Label: "نوع الخرسانة",
     project3Meta2Label: "متر مكعب",
     project3Meta3Label: "الطاقة (م³/يوم)",
     project4Title: "مشروع خزامي هومز",
@@ -2809,7 +2819,8 @@ function updateContent(lang) {
     content["mobile-partners"];
   document.getElementById("mobile-blog").textContent = content["mobile-blog"];
   const mobileCalculator = document.getElementById("mobile-calculator");
-  if (mobileCalculator) mobileCalculator.textContent = content["mobile-calculator"];
+  if (mobileCalculator)
+    mobileCalculator.textContent = content["mobile-calculator"];
   document.getElementById("mobile-certificates").textContent =
     content["mobile-certificates"];
   document.getElementById("mobile-approvals").textContent =
@@ -3059,7 +3070,8 @@ function updateContent(lang) {
     consent.innerHTML = consentHtml;
   }
   const privacyConsentError = document.getElementById("privacyConsentError");
-  if (privacyConsentError) privacyConsentError.textContent = content.consentError;
+  if (privacyConsentError)
+    privacyConsentError.textContent = content.consentError;
 
   const privacyLink = document.getElementById("privacy-policy-link");
 
@@ -3122,7 +3134,9 @@ function updateContent(lang) {
   const labelProductType = document.getElementById("label-productType");
   if (labelProductType)
     labelProductType.textContent = content.productSelectLabel;
-  const calculatorHelperText = document.getElementById("calculator-helper-text");
+  const calculatorHelperText = document.getElementById(
+    "calculator-helper-text",
+  );
   if (calculatorHelperText) {
     calculatorHelperText.textContent = content.calculatorHelperText;
   }
@@ -3411,8 +3425,8 @@ document.getElementById("current-year").textContent = new Date().getFullYear();
   }
 
   function clearFormValidationState() {
-    ["fullName", "email", "phone", "message", "privacyConsent"].forEach(
-      (id) => setFieldInvalid(id, false),
+    ["fullName", "email", "phone", "message", "privacyConsent"].forEach((id) =>
+      setFieldInvalid(id, false),
     );
   }
 
@@ -3636,13 +3650,17 @@ function loadHeroVideo() {
     : [];
   const configuredHeroPosterUrl = window.GW_SITE_CONFIG?.heroPosterUrl || "";
   const configuredHeroPosterMode = !!window.GW_SITE_CONFIG?.heroUsePosterModal;
-  const videoSources = Array.from(new Set([
-    configuredHeroVideoUrl ||
-      source?.getAttribute("data-src") ||
-      source?.getAttribute("src") ||
-      "",
-    ...configuredHeroVideoUrls,
-  ].filter(Boolean)));
+  const videoSources = Array.from(
+    new Set(
+      [
+        configuredHeroVideoUrl ||
+          source?.getAttribute("data-src") ||
+          source?.getAttribute("src") ||
+          "",
+        ...configuredHeroVideoUrls,
+      ].filter(Boolean),
+    ),
+  );
   let activeVideoSourceIndex = 0;
   let videoSrc = videoSources[activeVideoSourceIndex] || "";
   const youtubeVideoId = extractYouTubeId(configuredHeroVideoUrl);
@@ -3794,14 +3812,11 @@ function loadHeroVideo() {
     hidePlayBtn();
   }
 
-  video.addEventListener(
-    "error",
-    () => {
-      if (tryNextVideoSource()) return;
-      videoAvailable = false;
-      fallbackToPoster();
-    },
-  );
+  video.addEventListener("error", () => {
+    if (tryNextVideoSource()) return;
+    videoAvailable = false;
+    fallbackToPoster();
+  });
 
   if (!videoAvailable) return;
 
@@ -3840,7 +3855,8 @@ function enableThreeIfNeeded() {
   ["pointerdown", "mousemove", "scroll", "keydown"].forEach((eventName) => {
     window.addEventListener(eventName, start, { once: true, passive: true });
   });
-  const schedule = window.requestIdleCallback || ((cb) => window.setTimeout(cb, 12000));
+  const schedule =
+    window.requestIdleCallback || ((cb) => window.setTimeout(cb, 12000));
   schedule(() => window.setTimeout(start, 12000), { timeout: 12000 });
 }
 
@@ -3883,7 +3899,10 @@ function prefillContactFormFromCalculator() {
 
   const form = document.getElementById("projectInquiryForm");
   if (form) {
-    setTimeout(() => form.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+    setTimeout(
+      () => form.scrollIntoView({ behavior: "smooth", block: "start" }),
+      100,
+    );
   }
 }
 
