@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">حساب كمية الخرسانة الجاهزة</title>
+  <desc id="desc">رسم توضيحي لمخطط إنشائي وحساب كمية الخرسانة بالمتر المكعب</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#dfeaf5"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f3d15b"/>
+      <stop offset="1" stop-color="#caa11c"/>
+    </linearGradient>
+    <linearGradient id="concrete" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d7dee5"/>
+      <stop offset="1" stop-color="#8fa0ad"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)"/>
+  <rect x="0" y="620" width="1200" height="180" fill="#c5d0da"/>
+  <path d="M70 626h1060l-78 68H148z" fill="#9fb0bd"/>
+  <path d="M188 488h620l190 138H70z" fill="url(#concrete)"/>
+  <path d="M188 488h620l190 138" fill="none" stroke="#6f8290" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M188 488 70 626m270-138L215 626m275-138L365 626m275-138L515 626m275-138L665 626m143-138 190 138" stroke="#6f8290" stroke-width="4" opacity=".55"/>
+  <path d="M154 579h747" stroke="#eef3f7" stroke-width="6" opacity=".7"/>
+  <g transform="translate(150 122)">
+    <rect x="0" y="0" width="410" height="280" rx="24" fill="#fff" stroke="#ced9e3" stroke-width="4"/>
+    <rect x="38" y="42" width="140" height="34" rx="10" fill="#18334d"/>
+    <rect x="38" y="102" width="332" height="22" rx="8" fill="#d8e2eb"/>
+    <rect x="38" y="148" width="332" height="22" rx="8" fill="#d8e2eb"/>
+    <rect x="38" y="194" width="246" height="22" rx="8" fill="#d8e2eb"/>
+    <path d="M252 63h84m-42-42v84" stroke="#d5aa21" stroke-width="16" stroke-linecap="round"/>
+    <text x="52" y="250" fill="#18334d" font-family="Arial, sans-serif" font-size="38" font-weight="700">m³</text>
+  </g>
+  <g transform="translate(682 154)">
+    <rect x="0" y="0" width="310" height="184" rx="22" fill="#18334d"/>
+    <path d="M46 52h218M46 92h218M46 132h146" stroke="#5f7891" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="250" cy="132" r="34" fill="url(#gold)"/>
+    <path d="M235 132l10 10 22-26" fill="none" stroke="#18334d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g transform="translate(806 470)">
+    <rect x="0" y="0" width="170" height="92" rx="12" fill="#fff" stroke="#b4c1cc" stroke-width="4"/>
+    <path d="M28 66 75 26l30 28 20-18 22 30" fill="none" stroke="#18334d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <circle cx="1022" cy="204" r="74" fill="#fff" opacity=".72"/>
+  <path d="M994 204h56m-28-28v56" stroke="#d5aa21" stroke-width="14" stroke-linecap="round"/>
+</svg>

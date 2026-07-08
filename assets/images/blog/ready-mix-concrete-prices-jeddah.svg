@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">أسعار الخرسانة الجاهزة في جدة</title>
+  <desc id="desc">إنفوغرافيك يوضح عوامل تكلفة المتر المكعب للخرسانة الجاهزة في جدة</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7f9fb"/>
+      <stop offset="0.55" stop-color="#eef2f5"/>
+      <stop offset="1" stop-color="#e5ebef"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e7bd63"/>
+      <stop offset="1" stop-color="#b98224"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2d3f4e"/>
+      <stop offset="1" stop-color="#111c26"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#1c2b36" flood-opacity="0.16"/>
+    </filter>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0v48" fill="none" stroke="#c8d2da" stroke-width="1" opacity="0.42"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#grid)" opacity="0.55"/>
+
+  <g opacity="0.12" stroke="#243746" stroke-width="2" fill="none">
+    <path d="M75 630h1050"/>
+    <path d="M118 675h960"/>
+    <path d="M165 596l110 88 135-118 122 92 164-156 108 86 151-128 118 84"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="72" y="74" width="1056" height="652" rx="34" fill="#ffffff" opacity="0.92"/>
+    <rect x="72" y="74" width="1056" height="652" rx="34" fill="none" stroke="#d9a747" stroke-width="4"/>
+  </g>
+
+  <g transform="translate(116 112)">
+    <rect x="0" y="0" width="382" height="118" rx="22" fill="url(#steel)"/>
+    <text x="340" y="47" fill="#ffffff" font-family="Tahoma, Arial, sans-serif" font-size="28" font-weight="700" direction="rtl" text-anchor="end">أسعار الخرسانة الجاهزة</text>
+    <text x="340" y="86" fill="#e7bd63" font-family="Tahoma, Arial, sans-serif" font-size="24" font-weight="700" direction="rtl" text-anchor="end">في جدة</text>
+    <circle cx="48" cy="58" r="28" fill="url(#gold)"/>
+    <text x="48" y="68" fill="#172431" font-family="Arial, sans-serif" font-size="28" font-weight="700" text-anchor="middle">m³</text>
+  </g>
+
+  <g transform="translate(646 106)">
+    <rect x="0" y="0" width="398" height="190" rx="26" fill="#f9fbfc" stroke="#d8e0e6" stroke-width="2"/>
+    <text x="352" y="48" fill="#172431" font-family="Tahoma, Arial, sans-serif" font-size="24" font-weight="700" direction="rtl" text-anchor="end">تكلفة المتر المكعب</text>
+    <text x="352" y="92" fill="#b98224" font-family="Arial, sans-serif" font-size="54" font-weight="700" text-anchor="end">SAR / m³</text>
+    <path d="M52 134h284" stroke="#d9a747" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="116" cy="134" r="18" fill="#172431"/>
+    <circle cx="210" cy="134" r="18" fill="#172431"/>
+    <circle cx="304" cy="134" r="18" fill="#172431"/>
+  </g>
+
+  <g transform="translate(144 292)">
+    <rect x="0" y="0" width="252" height="176" rx="24" fill="#f9fbfc" stroke="#d8e0e6" stroke-width="2"/>
+    <text x="212" y="42" fill="#172431" font-family="Tahoma, Arial, sans-serif" font-size="22" font-weight="700" direction="rtl" text-anchor="end">المقاومة</text>
+    <rect x="42" y="110" width="44" height="38" rx="8" fill="url(#gold)"/>
+    <rect x="104" y="84" width="44" height="64" rx="8" fill="url(#gold)"/>
+    <rect x="166" y="58" width="44" height="90" rx="8" fill="url(#gold)"/>
+    <path d="M36 148h184M36 55v93" stroke="#172431" stroke-width="5" stroke-linecap="round"/>
+    <text x="212" y="78" fill="#6b7883" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="end">MPA</text>
+  </g>
+
+  <g transform="translate(474 292)">
+    <rect x="0" y="0" width="252" height="176" rx="24" fill="#f9fbfc" stroke="#d8e0e6" stroke-width="2"/>
+    <text x="212" y="42" fill="#172431" font-family="Tahoma, Arial, sans-serif" font-size="22" font-weight="700" direction="rtl" text-anchor="end">الكمية</text>
+    <g transform="translate(72 70)">
+      <path d="M54 0 108 28 54 58 0 28Z" fill="#e7bd63" stroke="#8b641f" stroke-width="2"/>
+      <path d="M0 28 54 58v62L0 88Z" fill="#b98224" stroke="#8b641f" stroke-width="2"/>
+      <path d="M108 28 54 58v62l54-32Z" fill="#8f671f" stroke="#8b641f" stroke-width="2"/>
+    </g>
+    <text x="126" y="154" fill="#172431" font-family="Arial, sans-serif" font-size="26" font-weight="700" text-anchor="middle">m³</text>
+  </g>
+
+  <g transform="translate(804 292)">
+    <rect x="0" y="0" width="252" height="176" rx="24" fill="#f9fbfc" stroke="#d8e0e6" stroke-width="2"/>
+    <text x="212" y="42" fill="#172431" font-family="Tahoma, Arial, sans-serif" font-size="22" font-weight="700" direction="rtl" text-anchor="end">الموقع</text>
+    <path d="M126 58c-35 0-64 28-64 63 0 48 64 98 64 98s64-50 64-98c0-35-29-63-64-63Z" transform="scale(.72) translate(50 24)" fill="url(#gold)" stroke="#8b641f" stroke-width="3"/>
+    <circle cx="126" cy="105" r="18" fill="#172431"/>
+    <path d="M52 148h148" stroke="#172431" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <g transform="translate(186 528)">
+    <rect x="0" y="0" width="240" height="126" rx="22" fill="#172431"/>
+    <path d="M42 72h102l34-36h28v54h-34l-28-24H42Z" fill="#e7bd63"/>
+    <circle cx="74" cy="94" r="14" fill="#ffffff"/>
+    <circle cx="154" cy="94" r="14" fill="#ffffff"/>
+    <text x="204" y="43" fill="#ffffff" font-family="Tahoma, Arial, sans-serif" font-size="22" font-weight="700" direction="rtl" text-anchor="end">المضخة</text>
+  </g>
+
+  <g transform="translate(480 528)">
+    <rect x="0" y="0" width="240" height="126" rx="22" fill="#172431"/>
+    <circle cx="82" cy="70" r="40" fill="none" stroke="#e7bd63" stroke-width="10"/>
+    <path d="M82 45v28l24 16" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="204" y="43" fill="#ffffff" font-family="Tahoma, Arial, sans-serif" font-size="22" font-weight="700" direction="rtl" text-anchor="end">وقت الصب</text>
+  </g>
+
+  <g transform="translate(774 528)">
+    <rect x="0" y="0" width="240" height="126" rx="22" fill="#172431"/>
+    <path d="M54 88h118M54 58h118M54 28h118" stroke="#e7bd63" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="196" cy="28" r="10" fill="#ffffff"/>
+    <circle cx="196" cy="58" r="10" fill="#ffffff"/>
+    <circle cx="196" cy="88" r="10" fill="#ffffff"/>
+    <text x="204" y="113" fill="#ffffff" font-family="Tahoma, Arial, sans-serif" font-size="22" font-weight="700" direction="rtl" text-anchor="end">المواصفة</text>
+  </g>
+
+  <g transform="translate(116 686)">
+    <rect x="0" y="0" width="968" height="18" rx="9" fill="#d9a747"/>
+    <rect x="0" y="0" width="575" height="18" rx="9" fill="#172431"/>
+  </g>
+</svg>

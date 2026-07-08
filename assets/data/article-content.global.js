@@ -1,0 +1,2 @@
+﻿window.ARTICLE_CONTENT = [];
+

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://golden-western.sa/sitemap.xml
