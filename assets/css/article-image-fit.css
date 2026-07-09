@@ -1,0 +1,28 @@
+.article-hero {
+  grid-template-columns: minmax(560px, 1.35fr) minmax(0, 0.9fr) !important;
+}
+
+.article-hero-media {
+  min-height: 430px !important;
+  background: #ffffff;
+}
+
+.article-hero-media img {
+  box-sizing: border-box;
+  object-fit: contain !important;
+  padding: 8px;
+}
+
+@media (max-width: 992px) {
+  .article-hero {
+    grid-template-columns: 1fr !important;
+  }
+
+  .article-hero-media {
+    min-height: 0 !important;
+  }
+
+  .article-hero-media img {
+    aspect-ratio: 3 / 2;
+  }
+}

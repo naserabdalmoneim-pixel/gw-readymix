@@ -1,0 +1,320 @@
+* {
+  margin: 0;
+
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+
+  overflow: hidden;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-family: Tahoma, Arial, sans-serif;
+
+  color: white;
+}
+
+.background {
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    linear-gradient(rgba(0, 35, 75, 0.88), rgba(0, 20, 50, 0.94)),
+    url("../images/projects/jeddah-central-stadium-optimized.webp");
+
+  background-size: cover;
+
+  background-position: center;
+
+  animation: zoom 20s infinite alternate;
+
+  z-index: -1;
+}
+
+@keyframes zoom {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.08);
+  }
+}
+
+.language {
+  position: absolute;
+
+  top: 25px;
+
+  left: 35px;
+
+  display: flex;
+
+  gap: 10px;
+
+  align-items: center;
+
+  font-weight: bold;
+}
+
+.language button {
+  border: 0;
+
+  background: none;
+
+  color: white;
+
+  font-size: 16px;
+
+  cursor: pointer;
+}
+
+.language button.active {
+  color: #ffd700;
+}
+
+.container {
+  width: 90%;
+
+  max-width: 850px;
+
+  padding: 25px 35px;
+
+  text-align: center;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  backdrop-filter: blur(15px);
+
+  border-radius: 25px;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+
+  animation: show 1s ease;
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+.logo {
+  width: 140px;
+
+  margin-bottom: 5px;
+}
+
+h1 {
+  font-size: 34px;
+
+  color: #ffd700;
+
+  margin-bottom: 5px;
+}
+
+h2 {
+  font-size: 20px;
+
+  line-height: 1.5;
+}
+
+.line {
+  width: 80px;
+
+  height: 4px;
+
+  background: #ffd700;
+
+  margin: 12px auto;
+
+  border-radius: 20px;
+}
+
+h3 {
+  font-size: 24px;
+
+  line-height: 1.6;
+
+  margin: 10px 0;
+}
+
+.description,
+p {
+  font-size: 16px;
+
+  line-height: 1.8;
+}
+
+.features {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 15px;
+
+  margin: 18px 0;
+}
+
+.features div {
+  width: 170px;
+
+  padding: 12px;
+
+  border-radius: 15px;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  transition: 0.3s;
+}
+
+.features div:hover {
+  transform: translateY(-7px);
+
+  background: rgba(255, 215, 0, 0.2);
+}
+
+.features strong {
+  font-size: 28px;
+}
+
+.features h4 {
+  margin: 5px;
+
+  font-size: 16px;
+}
+
+.features p {
+  font-size: 12px;
+}
+
+.buttons {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 15px;
+}
+
+.buttons a {
+  text-decoration: none;
+
+  background: #ffd700;
+
+  color: #003366;
+
+  padding: 12px 25px;
+
+  border-radius: 50px;
+
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.buttons a:hover {
+  transform: translateY(-5px);
+}
+
+.launch {
+  margin-top: 15px;
+
+  font-size: 18px;
+
+  font-weight: bold;
+
+  color: #ffd700;
+
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.whatsapp-float {
+  position: fixed;
+
+  bottom: 25px;
+
+  right: 25px;
+
+  width: 60px;
+
+  height: 60px;
+
+  border-radius: 50%;
+
+  background: #25d366;
+
+  color: white;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 30px;
+
+  text-decoration: none;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+
+  animation: pulse 2s infinite;
+}
+
+footer {
+  margin-top: 12px;
+
+  font-size: 12px;
+
+  color: #ddd;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+
+  .logo {
+    width: 110px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  .features div {
+    width: 100px;
+  }
+
+  .buttons a {
+    padding: 10px 15px;
+
+    font-size: 14px;
+  }
+}

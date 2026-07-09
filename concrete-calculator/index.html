@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-lang="ar" data-base-path="../" data-active-page="calculator">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N83CTP4P');</script>
+<meta name="robots" content="index, follow" />
+    <meta name="description" content="حاسبة الخرسانة الجاهزة تساعدك على حساب كمية الخرسانة المطلوبة بالمتر المكعب للأسقف والقواعد والأعمدة والميدات والأرضيات، مع إرسال النتيجة مباشرة لطلب عرض سعر." />
+    <link rel="canonical" href="https://golden-western.sa/concrete-calculator/" />
+    <meta property="og:type" content="website">
+<meta property="og:title" content="حاسبة الخرسانة الجاهزة بالمتر المكعب | الغربية الذهبية">
+<meta property="og:description" content="حاسبة الخرسانة الجاهزة تساعدك على حساب كمية الخرسانة المطلوبة بالمتر المكعب للأسقف والقواعد والأعمدة والميدات والأرضيات، مع إرسال النتيجة مباشرة لطلب عرض سعر.">
+<meta property="og:url" content="https://golden-western.sa/concrete-calculator/">
+<meta property="og:image" content="https://golden-western.sa/assets/images/og-default.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="حاسبة الخرسانة الجاهزة بالمتر المكعب | الغربية الذهبية">
+<meta name="twitter:description" content="حاسبة الخرسانة الجاهزة تساعدك على حساب كمية الخرسانة المطلوبة بالمتر المكعب للأسقف والقواعد والأعمدة والميدات والأرضيات، مع إرسال النتيجة مباشرة لطلب عرض سعر.">
+<meta name="twitter:image" content="https://golden-western.sa/assets/images/og-default.webp">
+<link rel="icon" href="../assets/images/logo.png" />
+    <title>حاسبة الخرسانة الجاهزة بالمتر المكعب | الغربية الذهبية</title>
+    <link rel="stylesheet" href="../assets/css/site.bundle.min.css?v=20260604calcstyle" />
+    <style>
+      .calculator-page .calculator-tools {
+        display: flex;
+        justify-content: flex-end;
+        margin: 0;
+      }
+      .calculator-page .lang-switch {
+        display: inline-flex;
+        gap: 6px;
+        padding: 6px;
+        border: 1px solid rgba(15,45,74,.12);
+        border-radius: 14px;
+        background: rgba(255,255,255,.9);
+        box-shadow: 0 10px 24px rgba(15,45,74,.08);
+      }
+      .calculator-page .lang-btn {
+        border: 0;
+        border-radius: 9px;
+        min-width: 46px;
+        height: 36px;
+        background: transparent;
+        color: var(--primary-color, #003366);
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .calculator-page .lang-btn[aria-pressed="true"] {
+        background: var(--primary-color, #003366);
+        color: #fff;
+      }
+      .calculator-page .calculator-layout {
+        display: grid;
+        grid-template-columns: 360px minmax(0, 1fr);
+        gap: 28px;
+        align-items: start;
+      }
+      .calculator-page .result-card {
+        background: linear-gradient(180deg, var(--primary-color, #003366), #0b4f8a);
+        color: #fff;
+        border-radius: var(--border-radius-lg, 18px);
+        padding: 24px;
+        position: sticky;
+        top: calc(var(--top-bar-offset, 0px) + 92px);
+        overflow: hidden;
+        box-shadow: var(--shadow, 0 18px 36px rgba(15,45,74,.18));
+      }
+      .calculator-page .result-card:before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        border-radius: 999px;
+        background: rgba(215,168,22,.2);
+        inset-inline-start: -70px;
+        top: -90px;
+      }
+      .calculator-page .result-card > * { position: relative; }
+      .calculator-page .result-title { margin: 0 0 12px; font-size: 1.24rem; color: #fff; }
+      .calculator-page .volume { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 900; line-height: 1; margin: 18px 0 6px; }
+      .calculator-page .unit { color: #d9e9ff; font-weight: 800; }
+      .calculator-page .breakdown { display: grid; gap: 10px; margin: 22px 0; }
+      .calculator-page .metric { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.18); }
+      .calculator-page .metric span { color: #d7e7fa; }
+      .calculator-page .metric strong { color: #fff; }
+      .calculator-page .calc-btn {
+        border: 0;
+        border-radius: 999px;
+        min-height: 48px;
+        padding: 0 18px;
+        font-weight: 900;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-align: center;
+      }
+      .calculator-page .calc-btn-primary { background: var(--primary-color, #003366); color: #fff; }
+      .calculator-page .calc-btn-soft { background: #eef4fb; color: var(--primary-color, #003366); }
+      .calculator-page .calc-btn-wa { width: 100%; background: #13a86b; color: #fff; margin-top: 4px; }
+      .calculator-page .calc-btn-gold { width: 100%; background: var(--secondary, #ffd700); color: #102a43; margin-top: 10px; }
+      .calculator-page .tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-bottom: 22px; }
+      .calculator-page .tab { border: 1px solid rgba(15,45,74,.12); background: #fff; color: var(--text-primary, #102a43); border-radius: 14px; min-height: 48px; padding: 9px 10px; cursor: pointer; font-weight: 800; }
+      .calculator-page .tab[aria-selected="true"] { background: var(--primary-color, #003366); border-color: var(--primary-color, #003366); color: #fff; }
+      .calculator-page .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .calculator-page .field { display: grid; gap: 8px; }
+      .calculator-page label { font-weight: 800; color: var(--text-primary, #173b5f); }
+      .calculator-page .hint { color: var(--text-secondary, #5f738c); font-size: .88rem; line-height: 1.6; }
+      .calculator-page input,
+      .calculator-page select {
+        width: 100%;
+        border: 1px solid rgba(15,45,74,.14);
+        border-radius: 14px;
+        min-height: 48px;
+        padding: 10px 13px;
+        color: var(--text-primary, #102a43);
+        background: #fff;
+      }
+      .calculator-page input:focus,
+      .calculator-page select:focus {
+        outline: 3px solid rgba(11,90,168,.14);
+        border-color: var(--primary-color, #003366);
+      }
+      .calculator-page .actions { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+      .calculator-page .warning { background: #fff8e5; color: #9a4d00; border: 1px solid #f4d47a; border-radius: 14px; padding: 13px 14px; line-height: 1.7; margin-top: 18px; }
+      .calculator-page .mini-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 22px; }
+      .calculator-page .mini { background: rgba(230,240,255,.72); border: 1px solid rgba(15,45,74,.1); border-radius: 14px; padding: 14px; min-height: 94px; }
+      .calculator-page .mini strong { display: block; margin-bottom: 7px; color: var(--text-primary, #102a43); }
+      .calculator-page .mini span { color: var(--text-secondary, #5f738c); line-height: 1.7; font-size: .92rem; }
+      .calculator-page .calculator-seo {
+        display: grid;
+        gap: 18px;
+        line-height: 1.9;
+      }
+      .calculator-page .calculator-seo h2,
+      .calculator-page .calculator-seo h3 {
+        color: var(--text-primary, #102a43);
+        margin: 0;
+      }
+      .calculator-page .calculator-seo p {
+        margin: 0;
+        color: var(--text-secondary, #5f738c);
+      }
+      .calculator-page .calculator-seo-list {
+        margin: 0;
+        padding-inline-start: 22px;
+        color: var(--text-secondary, #5f738c);
+      }
+      .calculator-page .calculator-seo-list li + li { margin-top: 8px; }
+      .calculator-page.page-main { padding-top: 0; }
+      .calculator-page .page-hero { padding: calc(var(--top-bar-offset, 0px) + 32px) 0 28px; }
+      .calculator-page .page-hero-shell { gap: 16px; }
+      .calculator-page .page-hero-content {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 20px;
+      }
+      .calculator-page .page-title {
+        max-width: 920px;
+        font-size: clamp(2.1rem, 4.2vw, 4rem);
+      }
+      .calculator-page .page-lead {
+        max-width: 880px;
+        margin-inline: 0;
+      }
+      .calculator-page .page-panel { padding: clamp(20px, 3vw, 30px); }
+      @media (max-width: 980px) {
+        .calculator-page .calculator-layout { grid-template-columns: 1fr; }
+        .calculator-page .result-card { position: static; order: 2; }
+        .calculator-page .tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .calculator-page .page-hero-content { grid-template-columns: 1fr; }
+        .calculator-page .calculator-tools { justify-content: flex-start; }
+      }
+      @media (max-width: 680px) {
+        .calculator-page .fields,
+        .calculator-page .mini-grid { grid-template-columns: 1fr; }
+        .calculator-page .tabs { grid-template-columns: 1fr; }
+        .calculator-page .actions .calc-btn { width: 100%; }
+      }
+    </style>
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://golden-western.sa/concrete-calculator/#webpage",
+        "url": "https://golden-western.sa/concrete-calculator/",
+        "name": "حاسبة الخرسانة الجاهزة بالمتر المكعب | الغربية الذهبية",
+        "description": "حاسبة الخرسانة الجاهزة تساعدك على حساب كمية الخرسانة المطلوبة بالمتر المكعب للأسقف والقواعد والأعمدة والميدات والأرضيات، مع إرسال النتيجة مباشرة لطلب عرض سعر.",
+        "inLanguage": "ar-SA",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "Golden Western Ready Mix",
+          "url": "https://golden-western.sa"
+        },
+        "image": "https://golden-western.sa/assets/images/og-default.webp"
+      }
+    </script>
+  </head>
+  <body class="rtl light-mode" id="page-top">
+    <noscript><iframe title="Google Tag Manager" src="https://www.googletagmanager.com/ns.html?id=GTM-N83CTP4P"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<a class="skip-link" href="#main-content">تخطي إلى المحتوى</a>
+    <div data-site-header></div>
+    <main id="main-content" class="page-main calculator-page">
+      <section class="page-hero">
+        <div class="container page-hero-shell">
+          <nav class="page-breadcrumbs" aria-label="مسار التنقل">
+            <a href="/" data-i18n="homeCrumb">الرئيسية</a><span>•</span><span data-i18n="calcCrumb">حاسبة الخرسانة</span>
+          </nav>
+          <div class="page-hero-content">
+            <div>
+              <span class="page-kicker" data-i18n="kicker"><i class="fas fa-calculator"></i>حاسبة تقديرية</span>
+              <h1 class="page-title" data-i18n="h1">حاسبة كمية الخرسانة الجاهزة</h1>
+              <p class="page-lead" data-i18n="lead">احسب كمية الخرسانة التقريبية بالمتر المكعب للأسقف والقواعد والأعمدة والميدات والأرضيات، ثم أرسل النتيجة مباشرة لطلب عرض سعر.</p>
+              <p class="page-lead" data-i18n="note">الحساب تقديري ويساعدك على تجهيز الطلب قبل التواصل مع المصنع. يجب مراجعة الكمية النهائية مع المهندس أو المخططات التنفيذية قبل الصب.</p>
+            </div>
+            <div class="calculator-tools"><div class="lang-switch" aria-label="Language switcher"><button class="lang-btn" type="button" data-lang-btn="ar" aria-pressed="true">AR</button><button class="lang-btn" type="button" data-lang-btn="en" aria-pressed="false">EN</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <div class="container">
+          <div class="page-panel">
+            <div class="calculator-layout">
+              <aside class="result-card" aria-live="polite">
+                <h2 class="result-title" data-i18n="resultTitle"></h2>
+                <div class="volume" id="finalVolume">0.00</div>
+                <div class="unit" data-i18n="unit"></div>
+                <div class="breakdown">
+                  <div class="metric"><span data-i18n="baseVolume"></span><strong id="baseVolume">0.00 م³</strong></div>
+                  <div class="metric"><span data-i18n="wasteVolume"></span><strong id="wasteVolume">0.00 م³</strong></div>
+                  <div class="metric"><span data-i18n="elementName"></span><strong id="elementName"></strong></div>
+                  <div class="metric"><span data-i18n="strengthOut"></span><strong id="strengthOut">30 MPa</strong></div>
+                </div>
+                <a class="calc-btn calc-btn-wa" id="whatsapp" href="#" target="_blank" rel="noopener"></a>
+                <button class="calc-btn calc-btn-gold" id="quoteRequest" type="button"></button>
+              </aside>
+              <section>
+                <h2 id="calc-title" data-i18n="calcTitle" style="margin-top:0">اختر نوع العنصر وأدخل الأبعاد</h2>
+                <div class="tabs" role="tablist" aria-label="نوع العنصر">
+                  <button class="tab" type="button" data-type="slab" aria-selected="true"></button>
+                  <button class="tab" type="button" data-type="footing" aria-selected="false"></button>
+                  <button class="tab" type="button" data-type="column" aria-selected="false"></button>
+                  <button class="tab" type="button" data-type="beam" aria-selected="false"></button>
+                  <button class="tab" type="button" data-type="floor" aria-selected="false"></button>
+                </div>
+                <div class="fields" id="fields"></div>
+                <div class="fields" style="margin-top:16px">
+                  <div class="field">
+                    <label for="waste" data-i18n="wasteLabel"></label>
+                    <select id="waste">
+                      <option value="0" selected></option>
+                      <option value="3"></option>
+                      <option value="5"></option>
+                      <option value="7"></option>
+                      <option value="10"></option>
+                    </select>
+                    <span class="hint" data-i18n="wasteHint"></span>
+                  </div>
+                  <div class="field">
+                    <label for="strength" data-i18n="strengthLabel"></label>
+                    <select id="strength">
+                      <option selected></option>
+                      <option>20 MPa</option>
+                      <option>25 MPa</option>
+                      <option>30 MPa</option>
+                      <option>35 MPa</option>
+                      <option>40 MPa</option>
+                    </select>
+                    <span class="hint" data-i18n="strengthHint"></span>
+                  </div>
+                </div>
+                <div class="actions">
+                  <button class="calc-btn calc-btn-primary" type="button" id="calculate" data-i18n="calculate"></button>
+                  <button class="calc-btn calc-btn-soft" type="button" id="reset" data-i18n="reset"></button>
+                </div>
+                <div class="warning" data-i18n="warning"></div>
+              </section>
+            </div>
+
+            <div class="mini-grid">
+              <div class="mini"><strong></strong><span></span></div>
+              <div class="mini"><strong></strong><span></span></div>
+              <div class="mini"><strong></strong><span></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <div class="container">
+          <div class="page-panel calculator-seo">
+            <h2>كيف تساعدك حاسبة الخرسانة قبل طلب الخرسانة الجاهزة؟</h2>
+            <p>
+              تساعدك حاسبة الخرسانة على تقدير كمية الخرسانة المطلوبة بالمتر المكعب قبل التواصل مع المصنع، سواء كان المشروع سقفًا، قاعدة، عمودًا، ميدة، أو أرضية. هذا التقدير يجعل طلب عرض السعر أكثر وضوحًا، ويقلل احتمالية طلب كمية أقل أو أكثر من الحاجة الفعلية.
+            </p>
+            <h3>الفرق بين المتر المكعب والمتر المربع</h3>
+            <p>
+              المتر المربع يستخدم لقياس المساحة مثل مساحة السقف أو الأرضية، أما المتر المكعب فهو وحدة قياس الحجم التي تعتمد عليها مصانع الخرسانة عند توريد الخرسانة الجاهزة. لذلك لا يكفي معرفة المساحة فقط، بل يجب إضافة السماكة أو الارتفاع للحصول على كمية الخرسانة بالمتر المكعب.
+            </p>
+            <h3>ما البيانات التي تحتاجها للحساب؟</h3>
+            <ul class="calculator-seo-list">
+              <li>نوع العنصر الإنشائي: سقف، قواعد، أعمدة، ميدات، أو أرضية.</li>
+              <li>الأبعاد من المخططات: الطول، العرض، السماكة، الارتفاع، وعدد العناصر المتشابهة.</li>
+              <li>مقاومة الخرسانة المطلوبة إن كانت محددة في المخططات أو من المهندس.</li>
+              <li>نسبة هدر أو احتياط مناسبة لطبيعة الموقع ودقة الحصر.</li>
+            </ul>
+            <h3>متى تطلب عرض السعر؟</h3>
+            <p>
+              بعد إدخال الأبعاد وظهور الكمية التقريبية، يمكنك إرسال النتيجة مباشرة لطلب عرض سعر. عند التواصل، يفضل إضافة موقع المشروع في جدة، موعد الصب، نوع العنصر، مقاومة الخرسانة، وهل يحتاج الموقع إلى مضخة خرسانة.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div data-site-footer></div>
+    <div data-site-sticky-cta></div>
+    <div data-site-back-to-top></div>
+    <script src="../assets/js/site-shell.global.js?v=202606041520" defer></script>
+
+    <script>
+      const phoneNumber = '966544584458';
+      let currentLang = 'ar';
+      let currentType = 'slab';
+
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.renderSiteShell) {
+          window.renderSiteShell({
+            basePath: '../',
+            activePage: 'calculator',
+            quoteTarget: '/#contact',
+            backToTopTarget: '#page-top',
+            lang: currentLang
+          });
+        }
+      });
+
+      const text = {
+        ar: {
+          title: 'حاسبة كمية الخرسانة الجاهزة | مصنع الغربية الذهبية',
+          dir: 'rtl',
+          brand: 'الغربية الذهبية للخرسانة الجاهزة',
+          homeCrumb: 'الرئيسية',
+          calcCrumb: 'حاسبة الخرسانة',
+          kicker: 'حاسبة تقديرية',
+          h1: 'حاسبة الخرسانة الجاهزة بالمتر المكعب',
+          lead: 'أدخل أبعاد العنصر الإنشائي لتحصل على تقدير واضح لكمية الخرسانة المطلوبة بالمتر المكعب قبل طلب الخرسانة الجاهزة في جدة.',
+          note: 'الحاسبة مخصصة للتقدير الأولي فقط، وتساعدك على تجهيز بيانات الطلب قبل التواصل مع المصنع. راجع الكمية النهائية مع المهندس أو المخططات التنفيذية قبل الصب.',
+          calcTitle: 'اختر نوع العنصر وأدخل الأبعاد من المخططات',
+          tabs: { slab: 'سقف / بلاطة', footing: 'قواعد', column: 'أعمدة', beam: 'ميدات', floor: 'أرضية' },
+          fields: {
+            slab: [['length','طول السقف أو البلاطة','متر',0], ['width','عرض السقف أو البلاطة','متر',0], ['thickness','سماكة الخرسانة','سم',0]],
+            footing: [['length','طول القاعدة الواحدة','متر',0], ['width','عرض القاعدة الواحدة','متر',0], ['height','ارتفاع القاعدة','متر',0], ['count','عدد القواعد المتشابهة','عدد',0]],
+            column: [['width','عرض العمود','سم',0], ['depth','عمق العمود','سم',0], ['height','ارتفاع العمود','متر',0], ['count','عدد الأعمدة المتشابهة','عدد',0]],
+            beam: [['length','الطول الإجمالي للميدات','متر',0], ['width','عرض الميدة','سم',0], ['height','ارتفاع الميدة','سم',0]],
+            floor: [['length','طول الأرضية','متر',0], ['width','عرض الأرضية','متر',0], ['thickness','سماكة الخرسانة','سم',0]]
+          },
+          unitLabel: 'الوحدة',
+          wasteLabel: 'نسبة الهدر / الاحتياط',
+          wasteHint: 'اختر نسبة احتياط مناسبة حسب دقة المخططات وطبيعة الموقع، وراجعها مع المهندس قبل الطلب.',
+          wasteOptions: ['بدون هدر', '3%', '5% مقترحة', '7%', '10%'],
+          strengthLabel: 'مقاومة الخرسانة',
+          strengthHint: 'حدد المقاومة إذا كانت مذكورة في المخططات، لأنها تؤثر على الخلطة والسعر.',
+          strengthUnknown: 'غير محددة',
+          calculate: 'احسب الكمية',
+          reset: 'إعادة ضبط',
+          warning: 'تنبيه: هذه الحاسبة تعطي كمية تقريبية للخرسانة بالمتر المكعب ولا تغني عن مراجعة المخططات أو المهندس. لا تضف الماء للخلطة في الموقع، واطلب الخرسانة حسب المواصفة المعتمدة.',
+          resultTitle: 'الكمية التقريبية المطلوبة',
+          unit: 'متر مكعب خرسانة',
+          unitShort: 'م³',
+          baseVolume: 'الكمية قبل الهدر',
+          wasteVolume: 'كمية الهدر',
+          elementName: 'نوع العنصر',
+          strengthOut: 'المقاومة',
+          whatsapp: 'إرسال النتيجة عبر واتساب',
+          quoteRequest: 'طلب عرض سعر',
+          mini: [
+            ['المتر المكعب', 'كمية الخرسانة تطلب من المصنع بالمتر المكعب، وليس بالمتر المربع.'],
+            ['طريقة الحساب', 'أدخل الأبعاد من المخططات كما هي، مع تحويل السماكة أو العرض من سم عند الحاجة.'],
+            ['طلب عرض السعر', 'بعد ظهور النتيجة أرسل الكمية والمقاومة ونوع العنصر لتجهيز عرض السعر بسرعة.']
+          ],
+          waMessage: function(element, quantity, strength, waste) {
+            return 'طلب تقدير خرسانة جاهزة من حاسبة الموقع:\n'
+              + 'نوع العنصر: ' + element + '\n'
+              + 'الكمية التقريبية: ' + quantity + ' م³\n'
+              + 'المقاومة: ' + (strength || 'غير محددة') + '\n'
+              + 'نسبة الهدر/الاحتياط: ' + waste + '%\n\n'
+              + 'أرغب في معرفة السعر والتنسيق لتوريد الخرسانة.';
+          },
+          quoteMessage: function(element, quantity, strength, waste) {
+            return 'بيانات الحاسبة:\n'
+              + 'نوع العنصر: ' + element + '\n'
+              + 'الكمية التقريبية: ' + quantity + ' م³\n'
+              + 'المقاومة: ' + (strength || 'غير محددة') + '\n'
+              + 'نسبة الهدر/الاحتياط: ' + waste + '%\n\n'
+              + 'يرجى إضافة موقع المشروع وموعد الصب وهل توجد حاجة إلى مضخة.';
+          },
+          demoSubmit: ''
+        },
+        en: {
+          title: 'Ready-Mix Concrete Quantity Calculator | Golden Western',
+          dir: 'ltr',
+          brand: 'Golden Western Ready-Mix Concrete',
+          homeCrumb: 'Home',
+          calcCrumb: 'Concrete Calculator',
+          kicker: 'Quantity Calculator',
+          h1: 'Ready-Mix Concrete Quantity Calculator',
+          lead: 'Enter the structural element dimensions to estimate the concrete quantity required in cubic meters before ordering ready-mix concrete in Jeddah.',
+          note: 'This calculator provides an initial estimate to help prepare your request. Always review the final quantity with the project engineer or approved drawings before pouring.',
+          calcTitle: 'Choose the element type and enter drawing dimensions',
+          tabs: { slab: 'Slab', footing: 'Footings', column: 'Columns', beam: 'Beams', floor: 'Floor' },
+          fields: {
+            slab: [['length','Slab length','m',0], ['width','Slab width','m',0], ['thickness','Concrete thickness','cm',0]],
+            footing: [['length','Single footing length','m',0], ['width','Single footing width','m',0], ['height','Footing height','m',0], ['count','Number of similar footings','count',0]],
+            column: [['width','Column width','cm',0], ['depth','Column depth','cm',0], ['height','Column height','m',0], ['count','Number of similar columns','count',0]],
+            beam: [['length','Total beam length','m',0], ['width','Beam width','cm',0], ['height','Beam height','cm',0]],
+            floor: [['length','Floor length','m',0], ['width','Floor width','m',0], ['thickness','Concrete thickness','cm',0]]
+          },
+          unitLabel: 'Unit',
+          wasteLabel: 'Waste / allowance',
+          wasteHint: 'Choose a suitable allowance based on drawing accuracy and site conditions, then review it with the engineer.',
+          wasteOptions: ['No waste', '3%', '5% suggested', '7%', '10%'],
+          strengthLabel: 'Concrete strength',
+          strengthHint: 'Select the strength if it is specified in the drawings because it affects mix design and price.',
+          strengthUnknown: 'Not specified',
+          calculate: 'Calculate Quantity',
+          reset: 'Reset',
+          warning: 'Note: this calculator provides an approximate concrete quantity in cubic meters and does not replace engineering review. Do not add water to the mix on site, and order concrete according to the approved specification.',
+          resultTitle: 'Estimated quantity required',
+          unit: 'Cubic meters of concrete',
+          unitShort: 'm³',
+          baseVolume: 'Quantity before waste',
+          wasteVolume: 'Waste quantity',
+          elementName: 'Element type',
+          strengthOut: 'Strength',
+          whatsapp: 'Send result via WhatsApp',
+          quoteRequest: 'Request a Quote',
+          mini: [
+            ['Cubic meters', 'Ready-mix concrete is ordered in cubic meters, not square meters.'],
+            ['Calculation method', 'Enter dimensions from the drawings and convert thickness or width from centimeters when required.'],
+            ['Request a quote', 'Send the quantity, strength, and element type to help prepare a faster quotation.']
+          ],
+          waMessage: function(element, quantity, strength, waste) {
+            return 'Ready-mix concrete estimate from the website calculator:\n'
+              + 'Element type: ' + element + '\n'
+              + 'Estimated quantity: ' + quantity + ' m³\n'
+              + 'Strength: ' + (strength || 'Not specified') + '\n'
+              + 'Waste/allowance: ' + waste + '%\n\n'
+              + 'I would like to know the price and coordinate concrete supply.';
+          },
+          quoteMessage: function(element, quantity, strength, waste) {
+            return 'Calculator data:\n'
+              + 'Element type: ' + element + '\n'
+              + 'Estimated quantity: ' + quantity + ' m³\n'
+              + 'Strength: ' + (strength || 'Not specified') + '\n'
+              + 'Waste/allowance: ' + waste + '%\n\n'
+              + 'Please add the project location, pouring date, and whether a pump is required.';
+          },
+          demoSubmit: ''
+        }
+      };
+
+      const formulas = {
+        slab: function(v) { return v.length * v.width * (v.thickness / 100); },
+        footing: function(v) { return v.length * v.width * v.height * v.count; },
+        column: function(v) { return (v.width / 100) * (v.depth / 100) * v.height * v.count; },
+        beam: function(v) { return v.length * (v.width / 100) * (v.height / 100); },
+        floor: function(v) { return v.length * v.width * (v.thickness / 100); }
+      };
+
+      const fieldsEl = document.getElementById('fields');
+      const wasteEl = document.getElementById('waste');
+      const strengthEl = document.getElementById('strength');
+
+      function t() { return text[currentLang]; }
+      function number(value) {
+        const n = Number(value);
+        return Number.isFinite(n) && n > 0 ? n : 0;
+      }
+      function format(n) {
+        return n.toLocaleString(currentLang === 'ar' ? 'ar-SA' : 'en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+      function getValues() {
+        const values = {};
+        t().fields[currentType].forEach(function(field) {
+          const key = field[0];
+          values[key] = number(document.getElementById(key).value);
+        });
+        return values;
+      }
+      function getResult() {
+        const base = formulas[currentType](getValues());
+        const wastePercent = number(wasteEl.value);
+        const waste = base * (wastePercent / 100);
+        const final = base + waste;
+        return { base, wastePercent, waste, final, strength: strengthEl.value, elementLabel: t().tabs[currentType] };
+      }
+      function renderFields() {
+        fieldsEl.innerHTML = t().fields[currentType].map(function(field) {
+          return '<div class="field"><label for="' + field[0] + '">' + field[1] + '</label><input id="' + field[0] + '" name="' + field[0] + '" type="number" inputmode="decimal" min="0" step="0.01" value="' + field[3] + '" /><span class="hint">' + t().unitLabel + ': ' + field[2] + '</span></div>';
+        }).join('');
+        fieldsEl.querySelectorAll('input').forEach(function(input) { input.addEventListener('input', calculate); });
+      }
+      function calculate() {
+        const result = getResult();
+        document.getElementById('baseVolume').textContent = format(result.base) + ' ' + t().unitShort;
+        document.getElementById('wasteVolume').textContent = format(result.waste) + ' ' + t().unitShort;
+        document.getElementById('finalVolume').textContent = format(result.final);
+        document.getElementById('elementName').textContent = result.elementLabel;
+        document.getElementById('strengthOut').textContent = result.strength;
+        const msg = t().waMessage(result.elementLabel, format(result.final), result.strength, result.wastePercent);
+        document.getElementById('whatsapp').href = 'https://wa.me/' + phoneNumber + '?text=' + encodeURIComponent(msg);
+      }
+      function applyText() {
+        const langText = t();
+        document.documentElement.lang = currentLang;
+        document.documentElement.dir = langText.dir;
+        document.documentElement.dataset.lang = currentLang;
+        document.title = langText.title;
+        document.querySelectorAll('[data-i18n]').forEach(function(el) {
+          el.textContent = langText[el.dataset.i18n] || '';
+        });
+        document.querySelectorAll('[data-lang-btn]').forEach(function(btn) {
+          btn.setAttribute('aria-pressed', String(btn.dataset.langBtn === currentLang));
+        });
+        document.querySelectorAll('.tab').forEach(function(tab) {
+          tab.textContent = langText.tabs[tab.dataset.type];
+        });
+        Array.from(wasteEl.options).forEach(function(option, index) { option.textContent = langText.wasteOptions[index]; });
+        strengthEl.options[0].textContent = langText.strengthUnknown;
+        document.getElementById('whatsapp').textContent = langText.whatsapp;
+        document.getElementById('quoteRequest').textContent = langText.quoteRequest;
+        document.querySelectorAll('.mini').forEach(function(mini, index) {
+          mini.querySelector('strong').textContent = langText.mini[index][0];
+          mini.querySelector('span').textContent = langText.mini[index][1];
+        });
+
+        renderFields();
+        calculate();
+      }
+      function setLanguage(lang) {
+        currentLang = lang;
+        applyText();
+      }
+      function openQuoteForm() {
+        const result = getResult();
+        const params = new URLSearchParams({
+          calc_quantity: result.final.toFixed(2),
+          calc_element: result.elementLabel,
+          calc_strength: result.strength,
+          calc_waste: String(result.wastePercent),
+          calc_message: t().quoteMessage(result.elementLabel, format(result.final), result.strength, result.wastePercent)
+        });
+        window.location.href = '/?' + params.toString() + '#contact';
+      }
+
+      document.querySelectorAll('[data-lang-btn]').forEach(function(btn) {
+        btn.addEventListener('click', function() { setLanguage(btn.dataset.langBtn); });
+      });
+      document.querySelectorAll('.tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          currentType = tab.dataset.type;
+          document.querySelectorAll('.tab').forEach(function(item) { item.setAttribute('aria-selected', String(item === tab)); });
+          renderFields();
+          calculate();
+        });
+      });
+      document.getElementById('calculate').addEventListener('click', calculate);
+      document.getElementById('reset').addEventListener('click', function() { renderFields(); calculate(); });
+      wasteEl.addEventListener('change', calculate);
+      strengthEl.addEventListener('change', calculate);
+      document.getElementById('quoteRequest').addEventListener('click', openQuoteForm);
+
+      applyText();
+    </script>
+  </body>
+</html>

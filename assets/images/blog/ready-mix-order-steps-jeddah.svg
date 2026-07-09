@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">خطوات طلب الخرسانة الجاهزة في جدة</title>
+  <desc id="desc">رسم توضيحي لشاحنة خرسانة ومسار خطوات الطلب من المصنع إلى موقع المشروع</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7fafc"/>
+      <stop offset="1" stop-color="#dfe8ef"/>
+    </linearGradient>
+    <linearGradient id="truck" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d8e1e9"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f0cf54"/>
+      <stop offset="1" stop-color="#c59c18"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect x="0" y="610" width="1200" height="190" fill="#c1ccd6"/>
+  <path d="M76 617h1048" stroke="#9cabb8" stroke-width="10" stroke-linecap="round"/>
+  <g transform="translate(126 246)">
+    <rect x="0" y="148" width="620" height="118" rx="22" fill="#18334d"/>
+    <rect x="492" y="98" width="178" height="168" rx="20" fill="#284963"/>
+    <path d="M526 130h78l42 58v36H526z" fill="#dce8f1"/>
+    <circle cx="148" cy="278" r="58" fill="#12263a"/>
+    <circle cx="148" cy="278" r="26" fill="#dbe3ea"/>
+    <circle cx="542" cy="278" r="58" fill="#12263a"/>
+    <circle cx="542" cy="278" r="26" fill="#dbe3ea"/>
+    <g transform="translate(92 0)">
+      <ellipse cx="210" cy="134" rx="202" ry="92" fill="url(#truck)" stroke="#6f8190" stroke-width="8"/>
+      <path d="M30 118c60-58 292-58 360 0" fill="none" stroke="#c59c18" stroke-width="18" stroke-linecap="round"/>
+      <path d="M30 154c72 54 282 54 360 0" fill="none" stroke="#6f8190" stroke-width="10" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="translate(142 116)">
+    <circle cx="58" cy="58" r="58" fill="url(#gold)"/>
+    <text x="58" y="74" text-anchor="middle" fill="#18334d" font-family="Arial, sans-serif" font-size="48" font-weight="700">1</text>
+    <rect x="142" y="31" width="150" height="18" rx="9" fill="#18334d"/>
+    <rect x="142" y="69" width="220" height="16" rx="8" fill="#9baab7"/>
+  </g>
+  <g transform="translate(462 116)">
+    <circle cx="58" cy="58" r="58" fill="#18334d"/>
+    <text x="58" y="74" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="48" font-weight="700">2</text>
+    <rect x="142" y="31" width="166" height="18" rx="9" fill="#18334d"/>
+    <rect x="142" y="69" width="246" height="16" rx="8" fill="#9baab7"/>
+  </g>
+  <g transform="translate(820 116)">
+    <circle cx="58" cy="58" r="58" fill="url(#gold)"/>
+    <text x="58" y="74" text-anchor="middle" fill="#18334d" font-family="Arial, sans-serif" font-size="48" font-weight="700">3</text>
+    <rect x="142" y="31" width="146" height="18" rx="9" fill="#18334d"/>
+    <rect x="142" y="69" width="188" height="16" rx="8" fill="#9baab7"/>
+  </g>
+  <path d="M430 174h90M748 174h90" stroke="#c59c18" stroke-width="12" stroke-linecap="round" stroke-dasharray="18 22"/>
+  <g transform="translate(862 458)">
+    <rect x="0" y="0" width="210" height="138" rx="18" fill="#fff" stroke="#c2ced8" stroke-width="4"/>
+    <path d="M44 76l42 38 86-86" fill="none" stroke="#159b73" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

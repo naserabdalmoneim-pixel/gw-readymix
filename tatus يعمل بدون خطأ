@@ -1,0 +1,25 @@
+[33m14ff2b0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev-local[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Update website files
+[33mf33976d[m Improve hero video startup behavior
+[33m8ecc46d[m Sync current site updates
+[33ma047de3[m Deploy optimized current website
+[33mc89d014[m Improve hero video startup and image delivery
+[33m43148aa[m Keep hero video while improving LCP
+[33mb0e23aa[m Improve initial page performance
+[33m94cf63f[m Improve hero LCP loading
+[33me4a52cc[m Optimize images and fix Arabic encoding
+[33m2ece619[m Harden lead form submission fallback
+[33m50fcfa2[m Confirm repository matches current project snapshot
+[33m3405ece[m Allow browser CORS accept header for lead relay
+[33m4d8d297[m Update site content and add concrete calculator
+[33me60a9f0[m Fix blog rendering after encoding repair
+[33mf740d49[m Fix Arabic blog encoding
+[33mbac649e[m Replace repository content with current website project
+[33m31a3cd6[m Add files via upload
+[33m78fff65[m Delete blog/ready-mix-order-steps-jeddah/index.html
+[33m4b593c2[m Delete blog/how-to-calculate-concrete-quantity/index.html
+[33m394c04f[m Remove validation screenshots from repository
+[33m369fdc2[m Replace repository with current site files
+[33m719af2e[m Improve lead form validation and success flow
+[33mc79d166[m Replace site files with current project
+[33m97aa1cb[m Update Arabic quality label
+[33mba463b9[m Replace site files
