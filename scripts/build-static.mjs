@@ -83,12 +83,44 @@ function cleanHtml(source) {
 function injectGoogleTagManager(source) {
   let html = source
     .replace(
-      /<script>\(function\(w,d,s,l,i\)\{[\s\S]*?GTM-N83CTP4P[\s\S]*?<\/script>\s*/g,
-      "",
+      /<script\b[^>]*>[\s\S]*?<\/script\s*>[ \t]*\r?\n?/gi,
+      (scriptBlock) => {
+        const loadsGtm =
+          /(?:https?:)?\/\/www\.googletagmanager\.com\/gtm\.js\b/i.test(
+            scriptBlock,
+          );
+        return loadsGtm && scriptBlock.includes(gtmId) ? "" : scriptBlock;
+      },
     )
     .replace(
-      /<noscript><iframe src="https:\/\/www\.googletagmanager\.com\/ns\.html\?id=GTM-N83CTP4P"[\s\S]*?<\/iframe><\/noscript>\s*/g,
-      "",
+      /<noscript\b[^>]*>[\s\S]*?<\/noscript\s*>[ \t]*\r?\n?/gi,
+      (noscriptBlock) => {
+        let removedGtmIframe = false;
+        const cleanedBlock = noscriptBlock.replace(
+          /<iframe\b[^>]*>[\s\S]*?<\/iframe\s*>/gi,
+          (iframeBlock) => {
+            const iframeTag = iframeBlock.match(/<iframe\b[^>]*>/i)?.[0] ?? "";
+            const srcMatch = iframeTag.match(
+              /\bsrc\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/i,
+            );
+            const src = srcMatch?.[1] ?? srcMatch?.[2] ?? srcMatch?.[3];
+            const loadsGtm =
+              src !== undefined &&
+              /^(?:https?:)?\/\/www\.googletagmanager\.com\/ns\.html\?id=GTM-N83CTP4P(?:&|$)/i.test(
+                src.replace(/&amp;/gi, "&"),
+              );
+
+            removedGtmIframe ||= loadsGtm;
+            return loadsGtm ? "" : iframeBlock;
+          },
+        );
+
+        if (!removedGtmIframe) return noscriptBlock;
+        const remainingContent = cleanedBlock.match(
+          /^<noscript\b[^>]*>([\s\S]*?)<\/noscript\s*>[ \t]*\r?\n?$/i,
+        )?.[1];
+        return remainingContent?.trim() ? cleanedBlock : "";
+      },
     );
 
   const viewportMetaPattern =
