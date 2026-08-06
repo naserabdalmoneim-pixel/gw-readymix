@@ -43,10 +43,19 @@
     />
     <link
       rel="preload"
-      as="image"
-      href="assets/images/projects/jeddah-central-stadium-optimized.webp"
-      type="image/webp"
+      as="video"
+      href="assets/videos/hero-video-fast-start.mp4?v=20260806-mobile-video"
+      type="video/mp4"
       fetchpriority="high"
+      media="(max-width: 900px)"
+    />
+    <link
+      rel="preload"
+      as="video"
+      href="assets/videos/hero-video-optimized.mp4?v=20260806-desktop-video"
+      type="video/mp4"
+      fetchpriority="high"
+      media="(min-width: 901px)"
     />
 
     <meta property="og:type" content="website" />
@@ -641,16 +650,28 @@
     <main id="main-content">
       <section id="home" class="hero">
         <div class="video-background">
-          <!-- Permanent product decision: keep the Motiara Villa construction image as the hero; do not restore an autoplay background video. -->
-          <img
-            class="hero-lcp-image"
-            src="assets/images/projects/jeddah-central-stadium-optimized.webp"
-            alt="مشروع برج موتيارا فيلا أثناء أعمال صب الخرسانة"
-            width="720"
-            height="405"
-            decoding="async"
+          <video
+            id="heroVideo"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
             fetchpriority="high"
-          />
+          >
+            <source
+              src="assets/videos/hero-video-fast-start.mp4?v=20260806-mobile-video"
+              data-src="assets/videos/hero-video-fast-start.mp4?v=20260806-mobile-video"
+              type="video/mp4"
+              media="(max-width: 900px)"
+            />
+            <source
+              src="assets/videos/hero-video-optimized.mp4?v=20260806-desktop-video"
+              data-src="assets/videos/hero-video-optimized.mp4?v=20260806-desktop-video"
+              type="video/mp4"
+              media="(min-width: 901px)"
+            />
+          </video>
           <div class="video-overlay"></div>
         </div>
         <div class="hero-content">
