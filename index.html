@@ -4,7 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N83CTP4P');</script>
+<script>
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
@@ -44,7 +49,7 @@
     <link
       rel="preload"
       as="video"
-      href="assets/videos/hero-video-fast-start.mp4?v=20260806-mobile-video"
+      href="assets/videos/hero-video-fast-start.mp4?v=20260825-0805"
       type="video/mp4"
       fetchpriority="high"
       media="(max-width: 900px)"
@@ -52,7 +57,7 @@
     <link
       rel="preload"
       as="video"
-      href="assets/videos/hero-video-optimized.mp4?v=20260806-desktop-video"
+      href="assets/videos/hero-video-optimized.mp4?v=20260825-0805"
       type="video/mp4"
       fetchpriority="high"
       media="(min-width: 901px)"
@@ -97,7 +102,7 @@
     <link rel="icon" href="assets/images/logo.png" />
     <link
       rel="stylesheet"
-      href="assets/css/site.bundle.min.css?v=20260628-hero-buttons"
+      href="assets/css/site.bundle.min.css?v=20260822-projects-foundation"
     />
     <link
       rel="preload"
@@ -287,7 +292,9 @@
     </script>
   </head>
   <body class="rtl light-mode">
-    <noscript
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N83CTP4P"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript
       ><iframe
         src="https://www.googletagmanager.com/ns.html?id=GTM-N83CTP4P"
         height="0"
@@ -317,6 +324,7 @@
         </div>
         <div class="modal-body">
           <div class="video-container" id="videoContainer"></div>
+          <div class="project-modal-details" id="projectModalDetails"></div>
           <div class="mock-projects">
             <h4 class="mock-projects-title">
               <i class="fas fa-project-diagram"></i>
@@ -660,14 +668,14 @@
             fetchpriority="high"
           >
             <source
-              src="assets/videos/hero-video-fast-start.mp4?v=20260806-mobile-video"
-              data-src="assets/videos/hero-video-fast-start.mp4?v=20260806-mobile-video"
+              src="assets/videos/hero-video-fast-start.mp4?v=20260825-0805"
+              data-src="assets/videos/hero-video-fast-start.mp4?v=20260825-0805"
               type="video/mp4"
               media="(max-width: 900px)"
             />
             <source
-              src="assets/videos/hero-video-optimized.mp4?v=20260806-desktop-video"
-              data-src="assets/videos/hero-video-optimized.mp4?v=20260806-desktop-video"
+              src="assets/videos/hero-video-optimized.mp4?v=20260825-0805"
+              data-src="assets/videos/hero-video-optimized.mp4?v=20260825-0805"
               type="video/mp4"
               media="(min-width: 901px)"
             />
@@ -1107,7 +1115,7 @@
             نماذج من مشاريع تم توريدها عبر قطاعات رياضية وسكنية وبنية تحتية
             وتعليمية.
           </div>
-          <div class="projects-grid">
+          <div class="projects-grid project-showcase-grid">
             <div
               class="project-card"
               data-project="2"
@@ -1118,19 +1126,16 @@
                 <img
                   loading="lazy"
                   decoding="async"
-                  src="assets/images/projects/jeddah-central-stadium-optimized.webp"
-                  srcset="
-                    assets/images/projects/jeddah-central-stadium-optimized.webp 960w
-                  "
+                  src="assets/images/projects/burj-motayara-villa-thumbnail.png"
                   sizes="(max-width: 768px) 100vw, 800px"
                   width="800"
                   height="500"
-                  alt="موتيارا فيلا"
+                  alt="مشروع برج موتيارا فيلا"
                 />
               </div>
               <div class="project-content">
                 <h3 class="project-title" id="project2-title">
-                  مشروع موتيارا فيلا
+                  مشروع برج موتيارا فيلا
                 </h3>
                 <p class="project-desc" id="project2-desc">
                   بتنفيذ متواصل لأكثر من 15 ساعة مع تنسيق دقيق لعمليات الصب
@@ -1180,22 +1185,18 @@
                 <img
                   loading="lazy"
                   decoding="async"
-                  src="assets/images/projects/vida.webp"
-                  srcset="assets/images/projects/vida.webp 1200w"
+                  src="assets/images/projects/al-qaswa-company-thumbnail.png"
                   sizes="(max-width: 768px) 100vw, 800px"
                   width="1200"
                   height="802"
-                  alt="صورة خارجية مشروع فيدا"
+                  alt="مشروع شركة القصواء"
                 />
               </div>
               <div class="project-content">
-                <h3 class="project-title" id="project5-title">مشروع فيدا</h3>
-                <p class="project-subtitle" id="project5-subtitle">
-                  بمعدل 6 ساعات
-                </p>
+                <h3 class="project-title" id="project5-title">مشروع شركة القصواء</h3>
                 <p class="project-desc" id="project5-desc">
-                  استخدام وتنسيق لعمليات الصب باستخدام عدة مضخات لضمان الدقة
-                  والجودة.
+                  توريد وصب 4,000 متر مكعب من الخرسانة الجاهزة ضمن عملية تنفيذ
+                  واسعة، مع تنسيق عدة مضخات وخلاطات لضمان استمرارية الصب.
                 </p>
 
                 <div class="project-meta-grid project-meta-grid--single">
@@ -1225,24 +1226,20 @@
                 <img
                   loading="lazy"
                   decoding="async"
-                  src="https://img.youtube.com/vi/23dB5xJD-z0/maxresdefault.jpg"
-                  srcset="
-                    https://img.youtube.com/vi/23dB5xJD-z0/maxresdefault.jpg 1280w
-                  "
+                  src="assets/images/projects/darco-company-thumbnail.png"
                   sizes="(max-width: 768px) 100vw, 800px"
                   width="1200"
                   height="800"
-                  alt="مشروع خزامي هومز"
+                  alt="مشروع شركة داركو"
                 />
               </div>
               <div class="project-content">
                 <h3 class="project-title" id="project4-title">
-                  مشروع خزامي هومز
+                  مشروع شركة داركو
                 </h3>
                 <p class="project-desc" id="project4-desc">
-                  توريد وصب خرسانة نوع 40 MPA بالتعاون مع المطور العقاري سهم
-                  العقارية، وبكمية تجاوزت 4500 متر مكعب من الخرسانة الجاهزة، وفق
-                  أعلى معايير الجودة والدقة في التنفيذ.
+                  توريد منظم لـ 4,000 متر مكعب من الخرسانة الجاهزة ضمن برنامج
+                  صب ليلي، مع إدارة حركة الخلاطات واستمرارية الإمداد بكفاءة عالية.
                 </p>
 
                 <div class="project-meta-grid">
@@ -1277,7 +1274,7 @@
             </div>
 
             <div
-              class="project-card"
+              class="project-card project-card--extra"
               data-project="3"
               role="button"
               tabindex="0"
@@ -1332,6 +1329,15 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="projects-actions">
+            <a
+              class="btn btn-primary"
+              id="projects-view-all"
+              href="/projects/"
+            >
+              عرض جميع المشاريع
+            </a>
           </div>
         </div>
       </section>
@@ -1462,162 +1468,85 @@
             </p>
           </div>
           <div class="projects-grid home-article-grid">
-            <a
-              class="project-card content-card article-card"
-              href="/blog/concrete-plant-jeddah/"
-              aria-label="مصنع خرسانة في جدة: كيف تختار المورد المناسب لمشروعك؟"
-            >
+            <a class="project-card content-card article-card" href="/blog/concrete-plant-jeddah/" aria-label="مصنع خرسانة في جدة: كيف تختار المورد المناسب لمشروعك؟">
               <div class="project-image">
-                <img
-                  loading="lazy"
-                  decoding="async"
-                  fetchpriority="auto"
-                  src="assets/images/blog/concrete-plant-jeddah.webp"
-                  alt="مصنع خرسانة جاهزة في جدة"
-                  width="1200"
-                  height="800"
-                />
+                <img loading="lazy" decoding="async" fetchpriority="auto" src="assets/images/blog/types-of-concrete-differences.webp" alt="مصنع خرسانة جاهزة في جدة" width="1200" height="800" />
               </div>
               <div class="project-content">
                 <div class="project-tags">
-                  <span class="project-tag">الخرسانة الجاهزة</span
-                  ><span class="project-tag">مصنع خرسانة جدة</span
-                  ><span class="project-tag">خرسانة جاهزة</span>
+                  <span class="project-tag">الخرسانة الجاهزة</span><span class="project-tag">مصنع خرسانة جدة</span><span class="project-tag">خرسانة جاهزة</span>
                 </div>
-                <h3 class="project-title">
-                  مصنع خرسانة في جدة: كيف تختار المورد المناسب لمشروعك؟
-                </h3>
-                <p class="project-desc">
-                  دليل عملي لاختيار مصنع خرسانة مناسب في جدة من حيث جودة
-                  الخلطات، وضوح عرض السعر، القدرة على التوريد، وتجهيز الموقع قبل
-                  الصب.
-                </p>
+                <h3 class="project-title">مصنع خرسانة في جدة: كيف تختار المورد المناسب لمشروعك؟</h3>
+                <p class="project-desc">دليل عملي لاختيار مصنع خرسانة مناسب في جدة من حيث جودة الخلطات، وضوح عرض السعر، القدرة على التوريد، وتجهيز الموقع قبل الصب.</p>
                 <div class="project-meta-grid">
                   <div class="project-meta-item">
-                    <div class="project-meta-value">
-                      <i class="far fa-calendar"></i>
-                    </div>
+                    <div class="project-meta-value"><i class="far fa-calendar"></i></div>
                     <div>١٥ مايو ٢٠٢٦</div>
                   </div>
                   <div class="project-meta-item">
-                    <div class="project-meta-value">
-                      <i class="far fa-clock"></i>
-                    </div>
+                    <div class="project-meta-value"><i class="far fa-clock"></i></div>
                     <div>6 دقائق قراءة</div>
                   </div>
                   <div class="project-meta-item">
-                    <div class="project-meta-value">
-                      <i class="fas fa-arrow-left"></i>
-                    </div>
+                    <div class="project-meta-value"><i class="fas fa-arrow-left"></i></div>
                     <div>اقرأ المزيد</div>
                   </div>
                 </div>
               </div>
             </a>
-            <a
-              class="project-card content-card article-card"
-              href="/blog/ready-mix-concrete-prices-jeddah/"
-              aria-label="أسعار الخرسانة الجاهزة في جدة: العوامل التي تحدد تكلفة المتر المكعب"
-            >
+            <a class="project-card content-card article-card" href="/blog/ready-mix-concrete-prices-jeddah/" aria-label="أسعار الخرسانة الجاهزة في جدة: العوامل التي تحدد تكلفة المتر المكعب">
               <div class="project-image">
-                <img
-                  loading="lazy"
-                  decoding="async"
-                  fetchpriority="auto"
-                  src="assets/images/blog/ready-mix-concrete-prices-jeddah.webp"
-                  alt="أسعار الخرسانة الجاهزة في جدة والعوامل المؤثرة في تكلفة المتر المكعب"
-                  width="1200"
-                  height="800"
-                />
+                <img loading="lazy" decoding="async" fetchpriority="auto" src="assets/images/blog/ready-mix-concrete-prices-jeddah.webp" alt="أسعار الخرسانة الجاهزة في جدة والعوامل المؤثرة في تكلفة المتر المكعب" width="1200" height="800" />
               </div>
               <div class="project-content">
                 <div class="project-tags">
-                  <span class="project-tag">الخرسانة الجاهزة</span
-                  ><span class="project-tag">أسعار الخرسانة الجاهزة في جدة</span
-                  ><span class="project-tag">تكلفة المتر المكعب</span>
+                  <span class="project-tag">الخرسانة الجاهزة</span><span class="project-tag">أسعار الخرسانة الجاهزة في جدة</span><span class="project-tag">تكلفة المتر المكعب</span>
                 </div>
-                <h3 class="project-title">
-                  أسعار الخرسانة الجاهزة في جدة: العوامل التي تحدد تكلفة المتر
-                  المكعب
-                </h3>
-                <p class="project-desc">
-                  دليل عملي يوضح كيف يتم تقييم سعر الخرسانة الجاهزة في جدة، وما
-                  البيانات التي يحتاجها المصنع لإعداد عرض دقيق حسب الكمية
-                  والمقاومة والموقع ومتطلبات الصب.
-                </p>
+                <h3 class="project-title">أسعار الخرسانة الجاهزة في جدة: العوامل التي تحدد تكلفة المتر المكعب</h3>
+                <p class="project-desc">دليل عملي يوضح كيف يتم تقييم سعر الخرسانة الجاهزة في جدة، وما البيانات التي يحتاجها المصنع لإعداد عرض دقيق حسب الكمية والمقاومة والموقع ومتطلبات الصب.</p>
                 <div class="project-meta-grid">
                   <div class="project-meta-item">
-                    <div class="project-meta-value">
-                      <i class="far fa-calendar"></i>
-                    </div>
+                    <div class="project-meta-value"><i class="far fa-calendar"></i></div>
                     <div>٢ يونيو ٢٠٢٦</div>
                   </div>
                   <div class="project-meta-item">
-                    <div class="project-meta-value">
-                      <i class="far fa-clock"></i>
-                    </div>
+                    <div class="project-meta-value"><i class="far fa-clock"></i></div>
                     <div>8 دقائق قراءة</div>
                   </div>
                   <div class="project-meta-item">
-                    <div class="project-meta-value">
-                      <i class="fas fa-arrow-left"></i>
-                    </div>
+                    <div class="project-meta-value"><i class="fas fa-arrow-left"></i></div>
                     <div>اقرأ المزيد</div>
                   </div>
                 </div>
               </div>
             </a>
-            <a
-              class="project-card content-card article-card"
-              href="/blog/how-to-calculate-concrete-quantity/"
-              aria-label="حاسبة كمية الخرسانة: احسب احتياج القواعد والأسقف بالمتر المكعب"
-            >
+            <a class="project-card content-card article-card" href="/blog/how-to-calculate-concrete-quantity/" aria-label="حاسبة كمية الخرسانة: احسب احتياج القواعد والأسقف بالمتر المكعب">
               <div class="project-image">
-                <img
-                  loading="lazy"
-                  decoding="async"
-                  fetchpriority="auto"
-                  src="assets/images/blog/how-to-calculate-concrete-quantity.webp"
-                  alt="حساب كمية الخرسانة الجاهزة بالمتر المكعب قبل الصب"
-                  width="1200"
-                  height="800"
-                />
+                <img loading="lazy" decoding="async" fetchpriority="auto" src="assets/images/blog/how-to-calculate-concrete-quantity.webp" alt="حساب كمية الخرسانة الجاهزة بالمتر المكعب قبل الصب" width="1200" height="800" />
               </div>
               <div class="project-content">
                 <div class="project-tags">
-                  <span class="project-tag">الخرسانة الجاهزة</span
-                  ><span class="project-tag">حساب كمية الخرسانة</span
-                  ><span class="project-tag">المتر المكعب</span>
+                  <span class="project-tag">الخرسانة الجاهزة</span><span class="project-tag">حساب كمية الخرسانة</span><span class="project-tag">المتر المكعب</span>
                 </div>
-                <h3 class="project-title">
-                  حاسبة كمية الخرسانة: احسب احتياج القواعد والأسقف بالمتر المكعب
-                </h3>
-                <p class="project-desc">
-                  استخدم حاسبة كمية الخرسانة لتقدير الكمية المطلوبة بالمتر
-                  المكعب للقواعد والأسقف والأعمدة، ثم أرسل النتيجة لطلب عرض سعر.
-                </p>
+                <h3 class="project-title">حاسبة كمية الخرسانة: احسب احتياج القواعد والأسقف بالمتر المكعب</h3>
+                <p class="project-desc">استخدم حاسبة كمية الخرسانة لتقدير الكمية المطلوبة بالمتر المكعب للقواعد والأسقف والأعمدة، ثم أرسل النتيجة لطلب عرض سعر.</p>
                 <div class="project-meta-grid">
                   <div class="project-meta-item">
-                    <div class="project-meta-value">
-                      <i class="far fa-calendar"></i>
-                    </div>
+                    <div class="project-meta-value"><i class="far fa-calendar"></i></div>
                     <div>٣٠ أبريل ٢٠٢٦</div>
                   </div>
                   <div class="project-meta-item">
-                    <div class="project-meta-value">
-                      <i class="far fa-clock"></i>
-                    </div>
+                    <div class="project-meta-value"><i class="far fa-clock"></i></div>
                     <div>14 دقيقة قراءة</div>
                   </div>
                   <div class="project-meta-item">
-                    <div class="project-meta-value">
-                      <i class="fas fa-arrow-left"></i>
-                    </div>
+                    <div class="project-meta-value"><i class="fas fa-arrow-left"></i></div>
                     <div>اقرأ المزيد</div>
                   </div>
                 </div>
               </div>
             </a>
+
           </div>
           <div class="blog-actions">
             <a class="btn btn-primary" id="blog-view-all" href="/blog/">
@@ -2239,6 +2168,6 @@
     </a>
 
     <script src="assets/js/site-config.js?v=20260608-video-lcp"></script>
-    <script src="assets/js/home.bundle.min.js?v=202607080728" defer></script>
+    <script src="assets/js/home.bundle.min.js?v=20260822-projects-foundation" defer></script>
   </body>
 </html>

@@ -489,6 +489,7 @@ function updateSitemap(posts) {
     "hot-weather-concrete-jeddah/",
     "ready-mix-concrete-price-factors-jeddah/",
     "blog/",
+    "projects/",
   ];
   const activeUrls = [
     ...staticUrls.map((urlPath) => `${siteOrigin}/${urlPath}`),
@@ -622,6 +623,7 @@ function buildBundles() {
     "assets/js/site-config.js",
     "assets/js/content-card.global.js",
     "assets/data/blog-posts.global.js",
+    "assets/data/projects.global.js",
     "assets/js/main.js",
   ]);
 
@@ -667,4 +669,21 @@ function main() {
   buildBundles();
 }
 
-main();
+if (process.argv.includes("--projects-bundles")) {
+  bundleCss("assets/css/site.bundle.min.css", [
+    "assets/css/all.min.css",
+    "assets/css/fonts.css",
+    "assets/css/style.css",
+    "styles/components.css",
+    "styles/pages.css",
+  ]);
+  bundleJs("assets/js/home.bundle.min.js", [
+    "assets/js/site-config.js",
+    "assets/js/content-card.global.js",
+    "assets/data/blog-posts.global.js",
+    "assets/data/projects.global.js",
+    "assets/js/main.js",
+  ]);
+} else {
+  main();
+}

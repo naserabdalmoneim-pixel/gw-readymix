@@ -1,6 +1,6 @@
 window.GW_SITE_CONFIG = {
-  heroVideoUrl: "assets/videos/hero-video-fast-start.mp4?v=20260613-fast-start",
-  heroVideoUrls: ["assets/videos/hero-video-fast-start.mp4?v=20260613-fast-start"],
+  heroVideoUrl: "assets/videos/hero-video-fast-start.mp4?v=20260825-0805",
+  heroVideoUrls: ["assets/videos/hero-video-fast-start.mp4?v=20260825-0805"],
   projectShowcaseVideoUrl: "",
   heroPosterUrl: "",
   heroUsePosterModal: false,

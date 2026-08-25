@@ -204,6 +204,7 @@ const projectModal = document.getElementById("projectModal");
 const modalClose = document.getElementById("modalClose");
 const modalProjectTitle = document.getElementById("modalProjectTitle");
 const videoContainer = document.getElementById("videoContainer");
+const projectModalDetails = document.getElementById("projectModalDetails");
 const mockProjectsGrid = document.getElementById("mockProjectsGrid");
 const mockProjectsTitle = document.getElementById("mockProjectsTitle");
 const projectCards = document.querySelectorAll(".project-card[data-project]");
@@ -229,6 +230,10 @@ function getCurrentLanguage() {
 }
 
 function getProjectTitle(projectId, lang) {
+  const canonicalProject = window.GW_PROJECTS_API?.get(projectId);
+  if (canonicalProject) {
+    return window.GW_PROJECTS_API.localize(canonicalProject, lang).title;
+  }
   const content = translations[lang] || translations.ar;
   return (
     content[`project${projectId}Title`] ||
@@ -238,17 +243,48 @@ function getProjectTitle(projectId, lang) {
 }
 
 function getProjectDesc(projectId, lang) {
+  const canonicalProject = window.GW_PROJECTS_API?.get(projectId);
+  if (canonicalProject) {
+    return window.GW_PROJECTS_API.localize(canonicalProject, lang).description;
+  }
   const content = translations[lang] || translations.ar;
   return content[`project${projectId}Desc`] || "";
 }
 
 function getMockProjectsForProject(projectId, lang) {
-  const related = projectRelations[projectId] || [];
+  const canonicalProject = window.GW_PROJECTS_API?.get(projectId);
+  const related = canonicalProject?.related_projects || projectRelations[projectId] || [];
   return related.map((id) => ({
     projectId: id,
     title: getProjectTitle(id, lang),
     desc: getProjectDesc(id, lang),
   }));
+}
+
+function syncHomepageProjectsFromCanonical(lang) {
+  if (!window.GW_PROJECTS_API) return;
+  projectCards.forEach((card) => {
+    const project = window.GW_PROJECTS_API.get(card.dataset.project);
+    if (!project) return;
+    const item = window.GW_PROJECTS_API.localize(project, lang);
+    const title = card.querySelector(".project-title");
+    const description = card.querySelector(".project-desc");
+    const subtitle = card.querySelector(".project-subtitle");
+    if (title) title.textContent = item.title;
+    if (description) description.textContent = item.description;
+    if (subtitle) subtitle.textContent = item.subtitle || "";
+    card.querySelectorAll(".project-meta-item").forEach((node, index) => {
+      const metric = item.metrics[index];
+      if (!metric) return;
+      const value = node.querySelector(".project-meta-value");
+      const label = Array.from(node.children).find((child) => !child.classList.contains("project-meta-value"));
+      if (value) value.textContent = metric.value;
+      if (label) label.textContent = metric.label;
+    });
+    card.querySelectorAll(".project-tag").forEach((node, index) => {
+      if (item.tags[index]) node.textContent = item.tags[index];
+    });
+  });
 }
 
 function extractYouTubeId(url) {
@@ -686,6 +722,10 @@ function renderProjectModalContent(projectId) {
   const lang = getCurrentLanguage();
   const projectTitle = getProjectTitle(projectId, lang);
   const projects = getMockProjectsForProject(projectId, lang);
+  const canonicalProject = window.GW_PROJECTS_API?.get(projectId);
+  const localizedProject = canonicalProject
+    ? window.GW_PROJECTS_API.localize(canonicalProject, lang)
+    : null;
 
   const projectSpecificVideos = {
     2: "https://www.youtube.com/watch?v=DxPvE_5fVyU",
@@ -700,9 +740,48 @@ function renderProjectModalContent(projectId) {
     5: "assets/images/projects/vida.webp",
   };
 
-  const showcaseVideoPath = projectSpecificVideos[projectId] || "";
+  const showcaseVideoPath = canonicalProject?.video || projectSpecificVideos[projectId] || "";
 
   modalProjectTitle.textContent = projectTitle;
+
+  const sourceCard = document.querySelector(
+    `.project-card[data-project="${projectId}"]`,
+  );
+  if (projectModalDetails && localizedProject) {
+    const metaItems = localizedProject.metrics
+      .map((metric) => `<div class="project-detail-stat"><strong>${metric.value}</strong><span>${metric.label}</span></div>`)
+      .join("");
+    const tags = localizedProject.tags
+      .map((tag) => `<span class="project-detail-tag">${tag}</span>`)
+      .join("");
+    projectModalDetails.innerHTML = `<div class="project-detail-heading"><span class="project-detail-kicker"><i class="fas fa-building"></i>${lang === "en" ? "Project overview" : "نبذة عن المشروع"}</span>${localizedProject.subtitle ? `<p class="project-detail-subtitle">${localizedProject.subtitle}</p>` : ""}<p class="project-detail-description">${localizedProject.description}</p></div>${metaItems ? `<div class="project-detail-stats">${metaItems}</div>` : ""}${tags ? `<div class="project-detail-tags">${tags}</div>` : ""}`;
+  } else if (projectModalDetails && sourceCard) {
+    const description = sourceCard.querySelector(".project-desc")?.textContent?.trim() || "";
+    const subtitle = sourceCard.querySelector(".project-subtitle")?.textContent?.trim() || "";
+    const metaItems = Array.from(sourceCard.querySelectorAll(".project-meta-item"))
+      .map((item) => {
+        const value = item.querySelector(".project-meta-value")?.textContent?.trim() || "";
+        const label = Array.from(item.children)
+          .find((child) => !child.classList.contains("project-meta-value"))
+          ?.textContent?.trim() || "";
+        return value || label
+          ? `<div class="project-detail-stat"><strong>${value}</strong><span>${label}</span></div>`
+          : "";
+      })
+      .join("");
+    const tags = Array.from(sourceCard.querySelectorAll(".project-tag"))
+      .map((tag) => `<span class="project-detail-tag">${tag.textContent.trim()}</span>`)
+      .join("");
+    projectModalDetails.innerHTML = `
+      <div class="project-detail-heading">
+        <span class="project-detail-kicker"><i class="fas fa-building"></i>${lang === "en" ? "Project overview" : "نبذة عن المشروع"}</span>
+        ${subtitle ? `<p class="project-detail-subtitle">${subtitle}</p>` : ""}
+        <p class="project-detail-description">${description}</p>
+      </div>
+      ${metaItems ? `<div class="project-detail-stats">${metaItems}</div>` : ""}
+      ${tags ? `<div class="project-detail-tags">${tags}</div>` : ""}
+    `;
+  }
 
   videoContainer.className = "video-container video-container--loading";
   videoContainer.innerHTML = `
@@ -712,12 +791,12 @@ function renderProjectModalContent(projectId) {
   `;
 
   if (!showcaseVideoPath) {
-    renderProjectFallbackImage(projectTitle, projectImages[projectId]);
+    renderProjectFallbackImage(projectTitle, canonicalProject?.image || projectImages[projectId]);
   } else {
     renderProjectYouTubeEmbed(
       projectTitle,
       showcaseVideoPath,
-      projectImages[projectId],
+      canonicalProject?.poster || canonicalProject?.image || projectImages[projectId],
     );
   }
 
@@ -779,6 +858,13 @@ if (projectsGrid) {
     }
   });
 }
+
+window.addEventListener("load", () => {
+  const requestedProject = new URLSearchParams(window.location.search).get("project");
+  if (requestedProject && projectRelations[requestedProject]) {
+    openProjectModal(requestedProject);
+  }
+});
 
 modalClose.addEventListener("click", closeProjectModal);
 projectModal.addEventListener("click", (e) => {
@@ -2184,6 +2270,8 @@ const translations = {
       "Selected ready-mix supply references across sports, housing, utilities, and education developments.",
     projectsNote:
       "Selected reference projects supplied across sports, residential, infrastructure, and education sectors.",
+    projectsViewAll: "View all projects",
+    projectsViewLess: "Show fewer projects",
     project2Tag1: "Residential",
     project2Tag2: "Phased Supply",
     project2Tag3: "Housing",
@@ -2495,6 +2583,8 @@ const translations = {
       "مراجع توريد مختارة عبر قطاعات الرياضة والسكن والمرافق والتعليم.",
     projectsNote:
       "نماذج من مشاريع تم توريدها عبر قطاعات رياضية وسكنية وبنية تحتية وتعليمية.",
+    projectsViewAll: "عرض جميع المشاريع",
+    projectsViewLess: "عرض مشاريع أقل",
     project2Tag1: "سكني",
     project2Tag2: "توريد مرحلي",
     project2Tag3: "إسكان",
@@ -2967,6 +3057,8 @@ function updateContent(lang) {
 
   document.getElementById("projects-title").textContent = content.projectsTitle;
   document.getElementById("projects-desc").textContent = content.projectsDesc;
+  const projectsViewAllButton = document.getElementById("projects-view-all");
+  if (projectsViewAllButton) projectsViewAllButton.textContent = content.projectsViewAll;
   const projectsNote = document.getElementById("projects-note");
   if (projectsNote) projectsNote.textContent = content.projectsNote;
 
@@ -3024,6 +3116,8 @@ function updateContent(lang) {
     const tagElement = document.getElementById(tagId);
     if (tagElement) tagElement.textContent = content[tagKey];
   });
+
+  syncHomepageProjectsFromCanonical(lang);
 
   projectCards.forEach((card) => {
     const title = card.querySelector(".project-title")?.textContent?.trim();

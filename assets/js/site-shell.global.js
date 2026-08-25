@@ -43,7 +43,7 @@
           activeKeys: [],
         },
         { href: "/#products", label: "المنتجات", activeKeys: [] },
-        { href: "/#projects", label: "المشاريع", activeKeys: [] },
+        { href: "/projects/", label: "المشاريع", activeKeys: ["projects"] },
         { href: "/#partners", label: "الشركاء", activeKeys: [] },
         { href: "/#blog", label: "المدونة", activeKeys: ["blog"] },
         { href: "/concrete-calculator/", label: "حاسبة الخرسانة", activeKeys: ["calculator"] },
@@ -81,7 +81,7 @@
           activeKeys: [],
         },
         {
-          href: "/#projects",
+          href: "/projects/",
           icon: "fa-hard-hat",
           label: "المشاريع",
           activeKeys: [],
@@ -130,7 +130,7 @@
         { href: "/#products", label: "المنتجات" },
       ],
       footerServiceItems: [
-        { href: "/#projects", label: "المشاريع" },
+        { href: "/projects/", label: "المشاريع" },
         { href: "/#partners", label: "الشركاء" },
         { href: "/blog/", label: "المدونة" },
         { href: "/#certificates", label: "الشهادات" },
@@ -179,7 +179,7 @@
         { href: "/#about", label: "About", activeKeys: [] },
         { href: "/#why-choose-us", label: "Why Us", activeKeys: [] },
         { href: "/#products", label: "Products", activeKeys: [] },
-        { href: "/#projects", label: "Projects", activeKeys: [] },
+        { href: "/projects/", label: "Projects", activeKeys: ["projects"] },
         { href: "/#partners", label: "Partners", activeKeys: [] },
         { href: "/#blog", label: "Blog", activeKeys: ["blog"] },
         { href: "/concrete-calculator/", label: "Calculator", activeKeys: ["calculator"] },
@@ -217,7 +217,7 @@
           activeKeys: [],
         },
         {
-          href: "/#projects",
+          href: "/projects/",
           icon: "fa-hard-hat",
           label: "Projects",
           activeKeys: [],
@@ -266,7 +266,7 @@
         { href: "/#products", label: "Products" },
       ],
       footerServiceItems: [
-        { href: "/#projects", label: "Projects" },
+        { href: "/projects/", label: "Projects" },
         { href: "/#partners", label: "Partners" },
         { href: "/blog/", label: "Blog" },
         { href: "/#certificates", label: "Certificates" },
