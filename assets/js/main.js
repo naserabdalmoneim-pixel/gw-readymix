@@ -180,10 +180,9 @@ function animateCounters() {
 }
 
 const projectData = {
-  project2: { m3: "35,000", units: "19" }, // Burj Motayara Villa
-  project3: { year: 2026, m3: "60,000", units: "500,000" }, // Buraiman Water Plant
-  project4: { year: "40 MPA", m3: "4,500+", units: "سهم العقارية" }, // Khuzamy Homes
-  project5: { m3: "2,500" }, // Vida Project
+  project2: { m3: "5,000", units: "19" }, // Hazazi Real Estate Company Project
+  project4: { year: "صب ليلي", m3: "9,000", units: "توريد متواصل" }, // Darco Company
+  project5: { m3: "5,000" }, // Al-Qaswa Company
 };
 
 function populateProjectData() {
@@ -275,6 +274,7 @@ function syncHomepageProjectsFromCanonical(lang) {
     if (subtitle) subtitle.textContent = item.subtitle || "";
     card.querySelectorAll(".project-meta-item").forEach((node, index) => {
       const metric = item.metrics[index];
+      node.hidden = !metric;
       if (!metric) return;
       const value = node.querySelector(".project-meta-value");
       const label = Array.from(node.children).find((child) => !child.classList.contains("project-meta-value"));
@@ -282,6 +282,7 @@ function syncHomepageProjectsFromCanonical(lang) {
       if (label) label.textContent = metric.label;
     });
     card.querySelectorAll(".project-tag").forEach((node, index) => {
+      node.hidden = !item.tags[index];
       if (item.tags[index]) node.textContent = item.tags[index];
     });
   });
@@ -2272,37 +2273,37 @@ const translations = {
       "Selected reference projects supplied across sports, residential, infrastructure, and education sectors.",
     projectsViewAll: "View all projects",
     projectsViewLess: "Show fewer projects",
-    project2Tag1: "Residential",
-    project2Tag2: "Phased Supply",
-    project2Tag3: "Housing",
-    project3Tag1: "Specialized Mix",
-    project3Tag2: "Infrastructure",
-    project3Tag3: "Moisture Resistance",
-    project4Tag1: "Residential",
-    project4Tag2: "40 MPA",
-    project5Tag1: "Residential",
-    project5Tag2: "Temperature Control",
-    project2Title: "Burj Motayara Villa",
+    project2Tag1: "Concrete Raft",
+    project2Tag2: "Multi-pump Operation",
+    project2Tag3: "Extended Pour",
+    project3Tag1: "Structural Stages",
+    project3Tag2: "Residential",
+    project3Tag3: "Progress-led Supply",
+    project4Tag1: "Night Shift",
+    project4Tag2: "9,000 m³",
+    project5Tag1: "Supply Scheduling",
+    project5Tag2: "Mixer Logistics",
+    project2Title: "Hazazi Real Estate Company Project",
     project2Desc:
-      "Carried out continuously for over 15 hours, with precise coordination of concrete pouring operations using multiple pumps to ensure high quality and efficient execution.",
+      "Execution of a two-metre-deep concrete raft pour totalling 5,000 m³, completed through a continuous operation exceeding 15 hours with multiple pumps covering the full placement area.",
     project2Meta2Label: "Cubic Meters",
     project2Meta3Label: "Floor",
-    project3Title: "Buraiman Water Plant",
+    project3Title: "Wahaj Real Estate Project",
     project3Desc:
-      "Concrete works for a critical water infrastructure facility requiring specialized mixes and strong durability under moisture exposure.",
+      "Supply of concrete mixes for the project's structural elements in line with construction progress, with each stage scheduled independently by placement date and required volume.",
     project3Meta1Label: "Completion Year",
     project3Meta2Label: "Cubic Meters",
     project3Meta3Label: "Capacity (mÂ³/day)",
-    project4Title: "Khuzamy Homes Project",
+    project4Title: "Darco Company Project",
     project4Desc:
-      "Supply and pouring of 40 MPA ready-mix concrete in cooperation with Sahm Real Estate, with a quantity exceeding 4,500 cubic meters and execution aligned with high standards of quality and precision.",
+      "Delivery of 9,000 m³ of ready-mix concrete during a dedicated night shift, supported by controlled mixer sequencing and timed loads to maintain continuity of placement.",
     project4Meta1Label: "Concrete Type",
     project4Meta2Label: "Cubic Meters",
     project4Meta3Label: "Developer",
-    project5Title: "Vida Project",
-    project5Subtitle: "6-hour cycle",
+    project5Title: "Al-Qaswa Company Project",
+    project5Subtitle: "",
     project5Desc:
-      "Coordinated pouring operations using multiple pumps to ensure precision and quality.",
+      "Supply of 5,000 m³ of ready-mix concrete under an operating programme that sequenced mixer arrivals across the pumping points while maintaining clear site circulation.",
     project5Meta1Label: "Completion Year",
     project5Meta2Label: "Cubic Meters",
     project5Meta3Label: "Residential Building",
@@ -2585,37 +2586,37 @@ const translations = {
       "نماذج من مشاريع تم توريدها عبر قطاعات رياضية وسكنية وبنية تحتية وتعليمية.",
     projectsViewAll: "عرض جميع المشاريع",
     projectsViewLess: "عرض مشاريع أقل",
-    project2Tag1: "سكني",
-    project2Tag2: "توريد مرحلي",
-    project2Tag3: "إسكان",
-    project3Tag1: "40MPA",
-    project3Tag2: "بنية تحتية",
-    project3Tag3: "سكني",
-    project4Tag1: "سكني",
-    project4Tag2: "40 MPA",
-    project5Tag1: "سكني",
-    project5Tag2: "تحكم حراري",
-    project2Title: "مشروع برج موتيارا فيلا",
+    project2Tag1: "لبشة خرسانية",
+    project2Tag2: "تشغيل متعدد المضخات",
+    project2Tag3: "صب ممتد",
+    project3Tag1: "مراحل إنشائية",
+    project3Tag2: "مشروع سكني",
+    project3Tag3: "توريد حسب التقدم",
+    project4Tag1: "وردية ليلية",
+    project4Tag2: "9,000 م³",
+    project5Tag1: "جدولة التوريد",
+    project5Tag2: "إدارة الخلاطات",
+    project2Title: "مشروع شركة هزازي العقارية",
     project2Desc:
-      "بتنفيذ متواصل لأكثر من 15 ساعة مع تنسيق دقيق لعمليات الصب باستخدام عدة مضخات لضمان الجودة والكفاءة في التنفيذ.",
+      "تنفيذ صب لبشة خرسانية بعمق مترين وبإجمالي 5,000 م³، ضمن عملية تشغيل متواصلة تجاوزت 15 ساعة، وباستخدام عدة مضخات لتغطية كامل نطاق الصب.",
     project2Meta2Label: "متر مكعب",
     project2Meta3Label: "طابق",
     project3Title: "مشروع وهج العقارية",
     project3Desc:
-      "تنفيذ أعمال الخرسانة لمشروع سكني باستخدام خلطات عالية الجودة لضمان القوة والمتانة وجودة التنفيذ. تتطلب خلطات متخصصة ومقاومة تشغيلية عالية في بيئات الرطوبة.",
+      "توريد الخلطات الخرسانية للعناصر الإنشائية بالمشروع وفق تقدم مراحل البناء، مع جدولة مستقلة لكل مرحلة بحسب موعد الصب والكمية المطلوبة.",
     project3Meta1Label: "نوع الخرسانة",
     project3Meta2Label: "متر مكعب",
     project3Meta3Label: "الطاقة (م³/يوم)",
-    project4Title: "مشروع خزامي هومز",
+    project4Title: "مشروع شركة داركو",
     project4Desc:
-      "توريد وصب خرسانة نوع 40 MPA بالتعاون مع المطور العقاري سهم العقارية، وبكمية تجاوزت 4500 متر مكعب من الخرسانة الجاهزة، وفق أعلى معايير الجودة والدقة في التنفيذ.",
+      "تنفيذ توريد 9,000 م³ من الخرسانة الجاهزة ضمن وردية صب ليلية، وفق تسلسل محدد للخلاطات ومتابعة زمنية للدفعات لضمان استمرارية الأعمال.",
     project4Meta1Label: "نوع الخرسانة",
     project4Meta2Label: "متر مكعب",
     project4Meta3Label: "المطور العقاري",
-    project5Title: "مشروع فيدا",
-    project5Subtitle: "بمعدل 6 ساعات",
+    project5Title: "مشروع شركة القصواء",
+    project5Subtitle: "",
     project5Desc:
-      "استخدام وتنسيق لعمليات الصب باستخدام عدة مضخات لضمان الدقة والجودة.",
+      "توريد 5,000 م³ من الخرسانة الجاهزة وفق برنامج تشغيلي نظّم وصول الخلاطات وتوزيعها على نقاط الضخ، مع المحافظة على انسيابية الحركة داخل الموقع.",
     project5Meta1Label: "سنة الانتهاء",
     project5Meta2Label: "متر مكعب",
     project5Meta3Label: "مبنى سكني",

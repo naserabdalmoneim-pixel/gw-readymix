@@ -2715,6 +2715,13 @@ body.light-mode .projects-directory-toolbar .filter-chip { background: #fff; bor
   margin-inline: auto;
   aspect-ratio: 16 / 9;
 }
+.project-detail-media--portrait {
+  width: min(380px, 100%);
+  max-height: min(70dvh, 680px);
+  aspect-ratio: 9 / 16;
+  border-radius: 18px;
+  overflow: hidden;
+}
 .project-detail-body {
   width: min(820px, 100%);
   margin-inline: auto;
@@ -2786,6 +2793,7 @@ body.light-mode .projects-directory-toolbar .filter-chip { background: #fff; bor
   .project-detail-dialog { width: calc(100vw - 16px); min-height: 0; max-height: 92dvh; padding-top: 54px; border-radius: 17px; }
   .project-detail-close { top: 5px; inset-inline-end: 9px; }
   .project-detail-media { width: 100%; max-height: none; }
+  .project-detail-media--portrait { width: min(100%, 340px); max-height: 64dvh; }
   .project-detail-body { gap: 14px; padding: 16px 17px 20px; }
   .project-detail-title-row h2 { font-size: clamp(1.5rem, 7vw, 1.85rem); }
   .project-detail-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
