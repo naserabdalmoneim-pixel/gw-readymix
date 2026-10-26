@@ -195,6 +195,54 @@
       featured: false,
       show_on_homepage: false,
       status: "published"
+    },
+    {
+      id: "10",
+      slug: "al-bunyan-al-oula-company-project",
+      title_ar: "مشروع شركة البنيان الأولى",
+      title_en: "Al Bunyan Al Oula Company Project",
+      description_ar: "توريد 800 م³ من الخرسانة الجاهزة لمشروع شركة البنيان الأولى، ضمن أعمال صب شهدت تشغيل عدة مضخات لتوزيع الخرسانة على نقاط العمل داخل الموقع.",
+      description_en: "Supply of 800 m³ of ready-mix concrete for Al Bunyan Al Oula Company's project, with multiple pumps distributing concrete across the placement areas on site.",
+      category: "general",
+      category_ar: "توريد الخرسانة",
+      category_en: "Concrete Supply",
+      image: "assets/images/projects/al-bunyan-al-oula-thumbnail.jpg",
+      poster: "assets/images/projects/al-bunyan-al-oula-thumbnail.jpg",
+      video: "https://www.youtube.com/watch?v=P9DXbEErGVU",
+      metrics: [
+        { value: "800 م³", value_en: "800 m³", label_ar: "كمية الخرسانة", label_en: "Concrete Volume" }
+      ],
+      tags_ar: ["800 م³", "خرسانة جاهزة"],
+      tags_en: ["800 m³", "Ready-mix Concrete"],
+      related_projects: ["2", "5", "4"],
+      display_order: 9,
+      featured: false,
+      show_on_homepage: false,
+      status: "published"
+    },
+    {
+      id: "11",
+      slug: "al-qimma-al-haditha-project",
+      title_ar: "مشروع القمة الحديثة",
+      title_en: "Al Qimma Al Haditha Project",
+      description_ar: "تزويد مشروع القمة الحديثة بإجمالي 5,500 م³ من الخرسانة الجاهزة، شملت أعمال التوريد نقل الخرسانة بالخلاطات إلى موقع التنفيذ لخدمة أعمال الصب بالمشروع.",
+      description_en: "Delivery of 5,500 m³ of ready-mix concrete to the Al Qimma Al Haditha project, with mixer trucks transporting concrete to the construction site for placement.",
+      category: "general",
+      category_ar: "توريد الخرسانة",
+      category_en: "Concrete Supply",
+      image: "assets/images/projects/al-qimma-al-haditha-thumbnail.jpg",
+      poster: "assets/images/projects/al-qimma-al-haditha-thumbnail.jpg",
+      video: "https://www.youtube.com/watch?v=07lHLx9VZBY",
+      metrics: [
+        { value: "5,500 م³", value_en: "5,500 m³", label_ar: "كمية الخرسانة", label_en: "Concrete Volume" }
+      ],
+      tags_ar: ["5,500 م³", "خرسانة جاهزة"],
+      tags_en: ["5,500 m³", "Ready-mix Concrete"],
+      related_projects: ["10", "5", "4"],
+      display_order: 10,
+      featured: false,
+      show_on_homepage: false,
+      status: "published"
     }
   ];
 

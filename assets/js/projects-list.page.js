@@ -4,8 +4,8 @@
   const basePath = html.dataset.basePath || "../";
   const api = window.GW_PROJECTS_API;
   const copy = {
-    ar: { title: "مشاريعنا | مصنع الغربية الذهبية للخرسانة الجاهزة", home: "الرئيسية", current: "المشاريع", breadcrumb: "مسار التنقل", kicker: "سجل المشاريع", heading: "مشاريعنا المنفذة", lead: "سجل مختار من مشاريع توريد الخرسانة الجاهزة، يوضح نطاق الأعمال وكميات التوريد وآلية التنفيذ في كل مشروع.", all: "جميع المشاريع", results: (n) => `عرض ${n} مشاريع`, details: "عرض التفاصيل", close: "إغلاق التفاصيل", overview: "نطاق المشروع", related: "مشاريع أخرى" },
-    en: { title: "Our Projects | Golden Western Ready-Mix", home: "Home", current: "Projects", breadcrumb: "Breadcrumb", kicker: "Project Record", heading: "Completed Projects", lead: "A selected record of ready-mix concrete projects outlining the scope, supplied volumes and delivery approach for each assignment.", all: "All Projects", results: (n) => `Showing ${n} projects`, details: "View Details", close: "Close details", overview: "Project Scope", related: "Other Projects" }
+    ar: { title: "مشاريعنا | مصنع الغربية الذهبية للخرسانة الجاهزة", home: "الرئيسية", current: "المشاريع", breadcrumb: "مسار التنقل", kicker: "سجل المشاريع", heading: "مشاريعنا المنفذة", lead: "سجل مختار من مشاريع توريد الخرسانة الجاهزة، يوضح نطاق الأعمال وكميات التوريد وآلية التنفيذ في كل مشروع.", all: "جميع المشاريع", results: (n) => n === 0 ? "لا توجد مشاريع" : n === 1 ? "عرض مشروع واحد" : n === 2 ? "عرض مشروعين" : `عرض ${n} ${n <= 10 ? "مشاريع" : "مشروعًا"}`, details: "عرض التفاصيل", close: "إغلاق التفاصيل", overview: "نطاق المشروع", related: "مشاريع أخرى" },
+    en: { title: "Our Projects | Golden Western Ready-Mix", home: "Home", current: "Projects", breadcrumb: "Breadcrumb", kicker: "Project Record", heading: "Completed Projects", lead: "A selected record of ready-mix concrete projects outlining the scope, supplied volumes and delivery approach for each assignment.", all: "All Projects", results: (n) => `Showing ${n} ${n === 1 ? "project" : "projects"}`, details: "View Details", close: "Close details", overview: "Project Scope", related: "Other Projects" }
   };
   let activeFilter = "all";
   let activeProjectId = null;
@@ -42,7 +42,7 @@
     const match = project.video && project.video.match(/[?&]v=([^&]+)/);
     if (match) {
       const orientation = project.video_orientation === "portrait" ? "portrait" : "landscape";
-      return `<div class="project-detail-media project-detail-media--${orientation}"><iframe title="${item.title}" src="https://www.youtube.com/embed/${match[1]}?playsinline=1&rel=0" loading="eager" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`;
+      return `<div class="project-detail-media project-detail-media--${orientation}"><iframe title="${item.title}" src="https://www.youtube.com/embed/${match[1]}?playsinline=1&rel=0" loading="eager" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`;
     }
     return `<div class="project-detail-media project-detail-media--image"><img src="${asset(project.image)}" alt="${item.title}"></div>`;
   }
@@ -69,6 +69,7 @@
   function closeDetails(historyMode) {
     const overlay = document.getElementById("project-detail-overlay");
     if (!overlay) return;
+    document.getElementById("project-detail-content").replaceChildren();
     activeProjectId = null; overlay.classList.remove("active"); overlay.setAttribute("aria-hidden", "true"); document.body.classList.remove("project-detail-open");
     document.querySelectorAll("[inert]").forEach((node) => { node.inert = false; });
     if (historyMode !== "none") history[historyMode === "replace" ? "replaceState" : "pushState"]({}, "", "/projects/");

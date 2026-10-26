@@ -2686,10 +2686,11 @@ body.light-mode .projects-directory-toolbar .filter-chip { background: #fff; bor
 }
 .project-detail-overlay.active {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
 }
 .project-detail-dialog {
-  width: min(960px, calc(100vw - 48px));
+  width: min(960px, 100%);
   max-width: 1000px;
   max-height: min(88dvh, 900px);
   padding-top: 56px;
@@ -2785,12 +2786,12 @@ body.light-mode .projects-directory-toolbar .filter-chip { background: #fff; bor
   padding: 10px 11px 11px;
 }
 @media (max-width: 900px) {
-  .project-detail-dialog { width: min(760px, calc(100vw - 32px)); max-height: 90dvh; }
+  .project-detail-dialog { width: min(760px, 100%); max-height: 90dvh; }
   .project-related-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 600px) {
   .project-detail-overlay { padding: 8px; }
-  .project-detail-dialog { width: calc(100vw - 16px); min-height: 0; max-height: 92dvh; padding-top: 54px; border-radius: 17px; }
+  .project-detail-dialog { width: 100%; min-width: 0; min-height: 0; max-height: 92dvh; padding-top: 54px; border-radius: 17px; }
   .project-detail-close { top: 5px; inset-inline-end: 9px; }
   .project-detail-media { width: 100%; max-height: none; }
   .project-detail-media--portrait { width: min(100%, 340px); max-height: 64dvh; }
