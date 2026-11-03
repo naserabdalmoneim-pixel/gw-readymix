@@ -243,6 +243,33 @@
       featured: false,
       show_on_homepage: false,
       status: "published"
+    },
+    {
+      id: "12",
+      slug: "al-ezz-real-estate-darb-al-haramain-project",
+      title_ar: "مشروع شركة العز العقارية",
+      title_en: "Al Ezz Real Estate Company Project",
+      subtitle_ar: "درب الحرمين",
+      subtitle_en: "Darb Al Haramain",
+      description_ar: "توريد 4,500 م³ من الخرسانة الجاهزة لمشروع شركة العز العقارية في درب الحرمين، ضمن أعمال صب ليلية شملت ضخ الخرسانة بالموقع ونقلها بالخلاطات إلى نقاط التنفيذ.",
+      description_en: "Supply of 4,500 m³ of ready-mix concrete for Al Ezz Real Estate Company's project in Darb Al Haramain, supporting night concrete placement with on-site pumping and mixer-truck deliveries.",
+      category: "general",
+      category_ar: "توريد الخرسانة",
+      category_en: "Concrete Supply",
+      image: "assets/images/projects/al-ezz-darb-al-haramain-thumbnail.jpg",
+      poster: "assets/images/projects/al-ezz-darb-al-haramain-thumbnail.jpg",
+      video: "https://www.youtube.com/watch?v=PkSldpMR9FQ",
+      metrics: [
+        { value: "4,500 م³", value_en: "4,500 m³", label_ar: "كمية الخرسانة", label_en: "Concrete Volume" },
+        { value: "درب الحرمين", value_en: "Darb Al Haramain", label_ar: "موقع المشروع", label_en: "Project Location" }
+      ],
+      tags_ar: ["درب الحرمين", "4,500 م³", "صب ليلي"],
+      tags_en: ["Darb Al Haramain", "4,500 m³", "Night Pour"],
+      related_projects: ["10", "11", "4"],
+      display_order: 11,
+      featured: false,
+      show_on_homepage: false,
+      status: "published"
     }
   ];
 
